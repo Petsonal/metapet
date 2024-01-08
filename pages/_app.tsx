@@ -1,4 +1,7 @@
 import type { AppProps } from 'next/app'
+import { WagmiProvider } from 'wagmi'
+import { SessionProvider } from 'next-auth/react'
+
 import type { LayoutProps } from '@vercel/examples-ui/layout'
 
 import { getLayout } from '@vercel/examples-ui'
@@ -9,13 +12,17 @@ function App({ Component, pageProps }: AppProps) {
   const Layout = getLayout<LayoutProps>(Component)
 
   return (
-    <Layout
-      title="Web3 Data Fetching"
-      path="solutions/web3-data-fetching"
-      description="Learn how to fetch data from smart contracts"
-    >
-      <Component {...pageProps} />
-    </Layout>
+    <WagmiProvider autoConnect>
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <Layout
+          title="Web3 Authentication"
+          path="solutions/web3-authentication"
+          description="Learn how to do authentication for Web3 apps"
+        >
+          <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
+    </WagmiProvider>
   )
 }
 

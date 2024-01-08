@@ -1,151 +1,225 @@
-/* eslint-disable react/no-unescaped-entities */
-import { Layout, Text, Page, Link, Code } from '@vercel/examples-ui'
-import { ethers } from 'ethers'
-import { FC } from 'react'
-import abi from '../lib/BAYC.abi.json'
-import { BORED_APE_YATCH_CLUB_ADDRESS } from '../constants'
+import {
+  Layout,
+  Text,
+  Page,
+  Link,
+  Code,
+  Snippet,
+  Button,
+} from '@vercel/examples-ui'
+import { getCsrfToken, signIn, useSession, signOut } from 'next-auth/react'
+import { SiweMessage } from 'siwe'
+import { useAccount, useConnect, useNetwork, useSignMessage } from 'wagmi'
 
-const contract = new ethers.Contract(
-  BORED_APE_YATCH_CLUB_ADDRESS,
-  abi,
-  ethers.getDefaultProvider()
-)
+function Home() {
+  const session = useSession()
 
-const Snippet: FC = ({ children }) => {
-  return (
-    <pre className="border-accents-2 border rounded-md bg-white overflow-x-auto p-6 transition-all">
-      {children}
-    </pre>
-  )
-}
+  const [{ data: connectData }, connect] = useConnect()
+  const [, signMessage] = useSignMessage()
+  const [{ data: networkData }] = useNetwork()
+  const [{ data: accountData }] = useAccount()
 
-function Home({ contractName }: { contractName: string }) {
+  const handleLogin = async () => {
+    try {
+      await connect(connectData.connectors[0])
+      const callbackUrl = '/protected'
+      const message = new SiweMessage({
+        domain: window.location.host,
+        address: accountData?.address,
+        statement: 'Sign in with Ethereum to the app.',
+        uri: window.location.origin,
+        version: '1',
+        chainId: networkData?.chain?.id,
+        nonce: await getCsrfToken(),
+      })
+      const { data: signature, error } = await signMessage({
+        message: message.prepareMessage(),
+      })
+      signIn('credentials', {
+        message: JSON.stringify(message),
+        redirect: false,
+        signature,
+        callbackUrl,
+      })
+    } catch (error) {
+      window.alert(error)
+    }
+  }
+
+  const handleLogout = async () => {
+    signOut({ redirect: false })
+  }
+
+  const ethereumPresent = typeof window !== 'undefined' && !!window.ethereum
+
   return (
     <Page>
       <section className="flex flex-col gap-6">
-        <Text variant="h1">Fetching data from smart contracts</Text>
+        <Text variant="h1">Web3 Authentication</Text>
         <Text>
-          Smart contracts contain relevant information to applications built on
-          top of blockchains that can run the{' '}
-          <Link
-            target="_blank"
-            rel="noreferrer"
-            href="https://ethereum.org/en/developers/docs/evm/"
-          >
-            Ethereum Virtual Machine
-          </Link>
-          . Some of the information in these contracts can be exposed in the
-          form of{' '}
-          <Link
-            target="_blank"
-            rel="noreferrer"
-            href="https://www.tutorialspoint.com/solidity/solidity_view_functions.htm"
-          >
-            View functions{' '}
-          </Link>
-          that do not need{' '}
-          <Link
-            target="_blank"
-            rel="noreferrer"
-            href="https://ethereum.org/en/developers/docs/gas/"
-          >
-            {' '}
-            gas or fees
-          </Link>{' '}
-          to be executed. Now we will explore how to get that information in
-          Next.js
-        </Text>
-
-        <Text variant="h2">
-          Instanciating a connection to the smart contract
+          This example shows how to implement Web3 authentication using{' '}
+          <Link href="https://next-auth.js.org/">NextAuth.js</Link>,{' '}
+          <Link href="https://github.com/tmm/wagmi">Wagmi</Link> and{' '}
+          <Link href="https://www.npmjs.com/package/siwe">SIWE</Link>. The
+          Sign-In With Ethereum is a pattern aimed at standardizing the way
+          sessions are handled when connecting a cryptocurrency wallet to an
+          application.
         </Text>
         <Text>
-          A first step needed to contact these smart contracts via{' '}
-          <Link
-            target="_blank"
-            rel="noreferrer"
-            href="https://en.wikipedia.org/wiki/Remote_procedure_call"
-          >
-            RPC
-          </Link>{' '}
-          is to instanciate a connection with them using a library like{' '}
-          <Link
-            target="_blank"
-            rel="noreferrer"
-            href="https://docs.ethers.io/v5/"
-          >
-            Ethers.js
-          </Link>
-          . There are also convenient libraries like{' '}
-          <Link
-            target="_blank"
-            rel="noreferrer"
-            href="https://github.com/dethcrypto/TypeChain"
-          >
-            Typechain
-          </Link>{' '}
-          to help in this process.
+          Following this pattern in Next.js helps us build our application using
+          the full capacities of Next.js as we now have access to users wallet
+          both in the browser and on the server.
         </Text>
+      </section>
+
+      <hr className="border-t border-accents-2 my-6" />
+
+      <section className="flex flex-col gap-3">
+        {!ethereumPresent && (
+          <Link href="https://metamask.io/" target="_parent">
+            Please install Metamask to use this example
+          </Link>
+        )}
+        <Button
+          onClick={
+            session.status === 'authenticated' ? handleLogout : handleLogin
+          }
+        >
+          {session.status === 'authenticated' ? 'Logout' : 'Login'}
+        </Button>
         <Text>
-          The{' '}
-          <Link
-            href="https://www.quicknode.com/guides/solidity/what-is-an-abi"
-            target="_blank"
-            rel="noreferrer"
-          >
-            ABI
-          </Link>
-          {''} contains information about the available function and{' '}
-          <Link
-            target="_blank"
-            rel="noreferrer"
-            href="https://cryptomarketpool.com/how-to-get-a-smart-contracts-abi-for-use-in-python-web3-py/"
-          >
-            can be obtained through Etherscan.
-          </Link>{' '}
-          We will use the Bored Ape Yatch Club popular NFT contract.
+          {session.status === 'authenticated'
+            ? `Connected as ${session.data?.user?.name}`
+            : `Not connected`}
         </Text>
-        <Snippet>
-          {`import abi from '../lib/BAYC.abi.json'
-
-const contractAddress = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D'
-
-const contract = new ethers.Contract(contractAddress, abi)
-`}
-        </Snippet>
-        <Text variant="h2">Fetching the data</Text>
-
+        <Text variant="h2">Login</Text>
         <Text>
-          This can now be used in <Code>getStaticProps</Code> or
-          <Code>getServerSideProps </Code> to pre-render the contract
-          information, or client-side with{' '}
-          <Link href="https://swr.vercel.app/" target="_blank" rel="noreferrer">
-            SWR
-          </Link>
-          , which might be better for active contracts with a lot of usage.
+          We&apos;ll be using <Code>NextAuth.js</Code> to save the user session
+          in a JWT. In order to do so, we&apos;ll have to configure NextAuth.js:
         </Text>
-        <Snippet>
-          {`// Server side
-export async function getStaticProps() {
-  const contractName = await contract.name()
 
-  return {
-    revalidate: 3600,
-    props: {
-      contractName,
-    },
+        <Snippet>{`// pages/api/auth/[...nextauth].ts
+
+import type { NextApiRequest, NextApiResponse } from 'next'
+import NextAuth from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import { getCsrfToken } from 'next-auth/react'
+import { SiweMessage } from 'siwe'
+
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  const providers = [
+    CredentialsProvider({
+      name: 'Ethereum',
+      credentials: {
+        message: {
+          label: 'Message',
+          type: 'text',
+          placeholder: '0x0',
+        },
+        signature: {
+          label: 'Signature',
+          type: 'text',
+          placeholder: '0x0',
+        },
+      },
+      async authorize(credentials) {
+        try {
+          if (!process.env.NEXTAUTH_URL) {
+            throw 'NEXTAUTH_URL is not set'
+          }
+          // the siwe message follows a predictable format
+          const siwe = new SiweMessage(JSON.parse(credentials?.message || '{}'))
+          const nextAuthUrl = new URL(process.env.NEXTAUTH_URL)
+          if (siwe.domain !== nextAuthUrl.host) {
+            return null
+          }
+          // validate the nonce
+          if (siwe.nonce !== (await getCsrfToken({ req }))) {
+            return null
+          }
+          // siwe will validate that the message is signed by the address 
+          await siwe.validate(credentials?.signature || '')
+          return {
+            id: siwe.address,
+          }
+        } catch (e) {
+          return null
+        }
+      },
+    }),
+  ]
+
+  const isDefaultSigninPage =
+    req.method === 'GET' && req.query.nextauth.includes('signin')
+
+  if (isDefaultSigninPage) {
+    providers.pop()
   }
-}
 
-// with SWR
-const { data } = useSWR('name', () => contract.name())
-`}
+  return await NextAuth(req, res, {
+    providers,
+    session: {
+      strategy: 'jwt',
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+      // after a user is logged in, we can keep the address in session
+      async session({ session, token }) {
+        session.address = token.sub
+        session.user!.name = token.sub
+        return session
+      },
+    },
+  })
+}`}</Snippet>
+
+        <Text>This will give us access to implementing our login function</Text>
+        <Snippet>
+          {`import { getCsrfToken, signIn, useSession, signOut } from 'next-auth/react'
+import { SiweMessage } from 'siwe'
+import { useAccount, useConnect, useNetwork, useSignMessage } from 'wagmi'
+
+function Home() {
+  // contains the JWT session from NextAuth.js
+  const session = useSession()
+
+  // Wagmi hooks to interact with Metamask
+  const [{ data: connectData }, connect] = useConnect()
+  const [, signMessage] = useSignMessage()
+  const [{ data: networkData }] = useNetwork()
+  const [{ data: accountData }] = useAccount()
+
+  const handleLogin = async () => {
+    try {
+      await connect(connectData.connectors[0])
+      const callbackUrl = '/protected'
+      const message = new SiweMessage({
+        domain: window.location.host,
+        address: accountData?.address,
+        statement: 'Sign in with Ethereum to the app.',
+        uri: window.location.origin,
+        version: '1',
+        chainId: networkData?.chain?.id,
+        nonce: await getCsrfToken(),
+      })
+      const { data: signature, error } = await signMessage({
+        message: message.prepareMessage(),
+      })
+      signIn('credentials', {
+        message: JSON.stringify(message),
+        redirect: false,
+        signature,
+        callbackUrl,
+      })
+    } catch (error) {
+      window.alert(error)
+    }
+  }
+
+  const handleLogout = async () => {
+    signOut({ redirect: false })
+  }`}
         </Snippet>
-        <Text>
-          That's it! Now if we use the <Code>contractName</Code> prop its value
-          should be:
-        </Text>
-        <Snippet>{contractName}</Snippet>
       </section>
     </Page>
   )
@@ -154,14 +228,3 @@ const { data } = useSWR('name', () => contract.name())
 Home.Layout = Layout
 
 export default Home
-
-export async function getStaticProps() {
-  const contractName = await contract.name()
-
-  return {
-    revalidate: 3600,
-    props: {
-      contractName,
-    },
-  }
-}

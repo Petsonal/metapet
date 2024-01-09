@@ -2,11 +2,11 @@ import {
   time,
   loadFixture,
 } from "@nomicfoundation/hardhat-toolbox-viem/network-helpers";
-import { expect } from "chai";
+import chai from "chai";
 import hre from "hardhat";
 import { getAddress, parseGwei } from "viem";
 
-describe("Lock", function () {
+describe("Lock" as string, function () {
   // We define a fixture to reuse the same setup in every test.
   // We use loadFixture to run this setup once, snapshot that state,
   // and reset Hardhat Network to that snapshot in every test.
@@ -19,7 +19,7 @@ describe("Lock", function () {
     // Contracts are deployed using the first signer/account by default
     const [owner, otherAccount] = await hre.viem.getWalletClients();
 
-    const lock = await hre.viem.deployContract("Lock", [unlockTime], {
+    const lock = await hre.viem.deployContract("Lock" as string, [unlockTime], {
       value: lockedAmount,
     });
 
@@ -39,13 +39,13 @@ describe("Lock", function () {
     it("Should set the right unlockTime", async function () {
       const { lock, unlockTime } = await loadFixture(deployOneYearLockFixture);
 
-      expect(await lock.read.unlockTime()).to.equal(unlockTime);
+      chai.chai.expect(await lock.read.unlockTime()).to.equal(unlockTime);
     });
 
     it("Should set the right owner", async function () {
       const { lock, owner } = await loadFixture(deployOneYearLockFixture);
 
-      expect(await lock.read.owner()).to.equal(getAddress(owner.account.address));
+      chai.expect(await lock.read.owner()).to.equal(getAddress(owner.account.address));
     });
 
     it("Should receive and store the funds to lock", async function () {
@@ -53,7 +53,7 @@ describe("Lock", function () {
         deployOneYearLockFixture
       );
 
-      expect(
+      chai.expect(
         await publicClient.getBalance({
           address: lock.address,
         })
@@ -63,8 +63,8 @@ describe("Lock", function () {
     it("Should fail if the unlockTime is not in the future", async function () {
       // We don't use the fixture here because we want a different deployment
       const latestTime = BigInt(await time.latest());
-      await expect(
-        hre.viem.deployContract("Lock", [latestTime], {
+      await chai.expect(
+        hre.viem.deployContract("Lock" as string, [latestTime], {
           value: 1n,
         })
       ).to.be.rejectedWith("Unlock time should be in the future");
@@ -76,7 +76,7 @@ describe("Lock", function () {
       it("Should revert with the right error if called too soon", async function () {
         const { lock } = await loadFixture(deployOneYearLockFixture);
 
-        await expect(lock.write.withdraw()).to.be.rejectedWith(
+        await chai.expect(lock.write.withdraw()).to.be.rejectedWith(
           "You can't withdraw yet"
         );
       });
@@ -91,11 +91,11 @@ describe("Lock", function () {
 
         // We retrieve the contract with a different account to send a transaction
         const lockAsOtherAccount = await hre.viem.getContractAt(
-          "Lock",
+          "Lock" as string,
           lock.address,
           { walletClient: otherAccount }
         );
-        await expect(lockAsOtherAccount.write.withdraw()).to.be.rejectedWith(
+        await chai.expect(lockAsOtherAccount.write.withdraw()).to.be.rejectedWith(
           "You aren't the owner"
         );
       });
@@ -108,7 +108,7 @@ describe("Lock", function () {
         // Transactions are sent using the first signer by default
         await time.increaseTo(unlockTime);
 
-        await expect(lock.write.withdraw()).to.be.fulfilled;
+        await chai.expect(lock.write.withdraw()).to.be.fulfilled;
       });
     });
 
@@ -124,8 +124,8 @@ describe("Lock", function () {
 
         // get the withdrawal events in the latest block
         const withdrawalEvents = await lock.getEvents.Withdrawal()
-        expect(withdrawalEvents).to.have.lengthOf(1);
-        expect(withdrawalEvents[0].args.amount).to.equal(lockedAmount);
+        chai.expect(withdrawalEvents).to.have.lengthOf(1);
+        chai.expect(withdrawalEvents[0].args.amount).to.equal(lockedAmount);
       });
     });
   });

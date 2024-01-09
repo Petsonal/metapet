@@ -2,8 +2,10 @@
   "name": "metapet",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
+    "build": "turbo build --filter=web",
+    "build:all": "turbo build",
+    "dev": "turbo dev --filter=web",
+    "dev:all": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

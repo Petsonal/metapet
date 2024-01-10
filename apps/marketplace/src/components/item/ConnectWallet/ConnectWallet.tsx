@@ -2,15 +2,18 @@ import styles from "./styles.module.css"
 
 export default function ConnectWallet() {
   return (
-    <button type="button" className="chakra-button css-6cka7m">
-      <span className="chakra-button__icon css-1qx7bcs">
+    <button
+      type="button"
+      className="inline-flex items-center justify-center select-none relative whitespace-nowrap align-middle outline-none rounded-md border-transparent border-2 outline-offset-2 w-auto leading-1.2 font-semibold transition-property-common transition-duration-normal h-10 min-w-10 text-md px-6 bg-blue-500 text-white"
+    >
+      <span className="chakra-button__icon inline-flex self-center flex-shrink-0 mr-3">
         <svg
           stroke="currentColor"
           fill="currentColor"
           stroke-width="0"
           viewBox="0 0 512 512"
           focusable="false"
-          className="chakra-icon css-13otjrl"
+          className="chakra-icon w-4 h-4 inline-block leading-4 flex-shrink-0 text-current"
           aria-hidden="true"
           height="1em"
           width="1em"

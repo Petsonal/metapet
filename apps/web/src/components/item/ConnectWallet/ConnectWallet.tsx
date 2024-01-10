@@ -10,7 +10,7 @@ export default function ConnectWallet() {
         <svg
           stroke="currentColor"
           fill="currentColor"
-          stroke-width="0"
+          strokeWidth="0"
           viewBox="0 0 512 512"
           focusable="false"
           className="chakra-icon w-4 h-4 inline-block leading-4 flex-shrink-0 text-current"
@@ -25,15 +25,15 @@ export default function ConnectWallet() {
             x="48"
             y="144"
             fill="none"
-            stroke-linejoin="round"
-            stroke-width="32"
+            strokeLinejoin="round"
+            strokeWidth="32"
             rx="48"
             ry="48"
           ></rect>
           <path
             fill="none"
-            stroke-linejoin="round"
-            stroke-width="32"
+            strokeLinejoin="round"
+            strokeWidth="32"
             d="M411.36 144v-30A50 50 0 00352 64.9L88.64 109.85A50 50 0 0048 159v49"
           ></path>
           <path d="M368 320a32 32 0 1132-32 32 32 0 01-32 32z"></path>

@@ -4,20 +4,18 @@ import styles from "../styles/pages/marketplace.module.css"
 
 export default function Home() {
   return (
-    <Flex marginTop="200px" display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-      <Text fontSize="60px" fontWeight="600" textColor="white">
-        Explore Marketplace
-      </Text>
+    <section className="p-16  place-items-center justify-center align-middle flex flex-col">
+      <h2 className="text-gray-950 font-bold text-3xl">Explore Marketplace</h2>
       <Flex display="flex" gap="25" marginTop="50">
         <Button
           marginRight="5"
           borderRadius="30"
-          border="solid white 1px"
+          border="solid black 1px"
           textColor="black"
           _hover={{
             background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
             border: "none",
-            textColor: "white",
+            textColor: "black",
           }}
         >
           Collectibles
@@ -26,11 +24,11 @@ export default function Home() {
           marginRight="5"
           borderRadius="30"
           textColor="black"
-          border="solid white 1px"
+          border="solid black 1px"
           _hover={{
             background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
             border: "none",
-            textColor: "white",
+            textColor: "black",
           }}
         >
           Art
@@ -38,12 +36,12 @@ export default function Home() {
         <Button
           marginRight="5"
           borderRadius="30"
-          border="solid white 1px"
+          border="solid black 1px"
           textColor="black"
           _hover={{
             background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
             border: "none",
-            textColor: "white",
+            textColor: "black",
           }}
         >
           Gaming
@@ -51,12 +49,12 @@ export default function Home() {
         <Button
           marginRight="5"
           borderRadius="30"
-          border="solid white 1px"
+          border="solid black 1px"
           textColor="black"
           _hover={{
             background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
             border: "none",
-            textColor: "white",
+            textColor: "black",
           }}
         >
           Sports
@@ -64,12 +62,12 @@ export default function Home() {
         <Button
           marginRight="5"
           borderRadius="30"
-          border="solid white 1px"
+          border="solid black 1px"
           textColor="black"
           _hover={{
             background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
             border: "none",
-            textColor: "white",
+            textColor: "black",
           }}
         >
           Photography
@@ -77,12 +75,12 @@ export default function Home() {
         <Button
           marginRight={"5"}
           borderRadius="30"
-          border="solid white 1px"
+          border="solid black 1px"
           textColor="black"
           _hover={{
             background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
             border: "none",
-            textColor: "white",
+            textColor: "black",
           }}
         >
           Music
@@ -90,12 +88,12 @@ export default function Home() {
         <Button
           marginRight="5"
           borderRadius="30"
-          border="solid white 1px"
+          border="solid black 1px"
           textColor="black"
           _hover={{
             background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
             border: "none",
-            textColor: "white",
+            textColor: "black",
           }}
         >
           Virtual Worlds
@@ -103,12 +101,12 @@ export default function Home() {
         <Button
           marginRight="5"
           borderRadius="30"
-          border="solid white 1px"
+          border="solid black 1px"
           textColor="black"
           _hover={{
             background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
             border: "none",
-            textColor: "white",
+            textColor: "black",
           }}
         >
           Trading Cards
@@ -136,16 +134,16 @@ export default function Home() {
             className={styles.conteiner}
           >
             <Box className={styles.img}>
-              <Image src="images/NFT5.png" w="100%" h="100%" objectFit="cover" />
+              <Image src="img/nft/nft1.jpg" w="100%" h="100%" objectFit="cover" />
             </Box>
             <Flex justifyContent="space-around" alignItems="center" paddingBottom="20px">
               <Box display="flex" flexDirection="column" className={styles.cont}>
                 <Box display="flex" w="275px" flexDirection="row" justifyContent="space-around">
                   <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Text fontSize="24" textColor="white" fontWeight="600">
+                    <Text fontSize="24" textColor="black" fontWeight="600">
                       Reox Fancxy
                     </Text>
-                    <Text opacity="0.5" textColor="white" fontSize="12px">
+                    <Text opacity="0.5" textColor="black" fontSize="12px">
                       @hibnastiar
                     </Text>
                   </Box>
@@ -159,7 +157,7 @@ export default function Home() {
                 <Box alignItems="flex-start">
                   <Button
                     borderRadius="12px"
-                    border="solid white 1px"
+                    border="solid black 1px"
                     textColor="black"
                     w="275px"
                     h="55px"
@@ -168,7 +166,7 @@ export default function Home() {
                     fontSize="18px"
                     _hover={{
                       background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
-                      textColor: "white",
+                      textColor: "black",
                       border: "none",
                       fontSize: "20px",
                     }}
@@ -200,16 +198,16 @@ export default function Home() {
             className={styles.conteiner}
           >
             <Box className={styles.img}>
-              <Image src="images/NFT11.png" w="100%" h="100%" objectFit="cover" />
+              <Image src="img/nft/nft1.jpg" w="100%" h="100%" objectFit="cover" />
             </Box>
             <Flex justifyContent="space-around" alignItems="center" paddingBottom="20px">
               <Box display="flex" flexDirection="column" className={styles.cont}>
                 <Box display="flex" w="275px" flexDirection="row" justifyContent="space-around">
                   <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Text fontSize="24" textColor="white" fontWeight="600">
+                    <Text fontSize="24" textColor="black" fontWeight="600">
                       Reox Fancxy
                     </Text>
-                    <Text opacity="0.5" textColor="white" fontSize="12px">
+                    <Text opacity="0.5" textColor="black" fontSize="12px">
                       @hibnastiar
                     </Text>
                   </Box>
@@ -223,7 +221,7 @@ export default function Home() {
                 <Box alignItems="flex-start">
                   <Button
                     borderRadius="12px"
-                    border="solid white 1px"
+                    border="solid black 1px"
                     textColor="black"
                     w="275px"
                     h="55px"
@@ -231,7 +229,7 @@ export default function Home() {
                     className={styles.btn}
                     _hover={{
                       background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
-                      textColor: "white",
+                      textColor: "black",
                       border: "none",
                       fontSize: "20px",
                     }}
@@ -263,16 +261,16 @@ export default function Home() {
             className={styles.conteiner}
           >
             <Box className={styles.img}>
-              <Image src="images/NFT7.png" w="100%" h="100%" objectFit="cover" />
+              <Image src="img/nft/nft2.jpg" w="100%" h="100%" objectFit="cover" />
             </Box>
             <Flex justifyContent="space-around" alignItems="center" paddingBottom="20px">
               <Box display="flex" flexDirection="column" className={styles.cont}>
                 <Box display="flex" w="275px" flexDirection="row" justifyContent="space-around">
                   <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Text fontSize="24" textColor="white" fontWeight="600">
+                    <Text fontSize="24" textColor="black" fontWeight="600">
                       Reox Fancxy
                     </Text>
-                    <Text opacity="0.5" textColor="white" fontSize="12px">
+                    <Text opacity="0.5" textColor="black" fontSize="12px">
                       @hibnastiar
                     </Text>
                   </Box>
@@ -286,7 +284,7 @@ export default function Home() {
                 <Box alignItems="flex-start">
                   <Button
                     borderRadius="12px"
-                    border="solid white 1px"
+                    border="solid black 1px"
                     textColor="black"
                     w="275px"
                     h="55px"
@@ -294,7 +292,7 @@ export default function Home() {
                     className={styles.btn}
                     _hover={{
                       background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
-                      textColor: "white",
+                      textColor: "black",
                       border: "none",
                       fontSize: "20px",
                     }}
@@ -326,16 +324,16 @@ export default function Home() {
             className={styles.conteiner}
           >
             <Box className={styles.img}>
-              <Image src="images/NFT8.png" w="100%" h="100%" objectFit="cover" />
+              <Image src="img/nft/nft1.jpg" w="100%" h="100%" objectFit="cover" />
             </Box>
             <Flex justifyContent="space-around" alignItems="center" paddingBottom="20px">
               <Box display="flex" flexDirection="column" className={styles.cont}>
                 <Box display="flex" w="275px" flexDirection="row" justifyContent="space-around">
                   <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Text fontSize="24" textColor="white" fontWeight="600">
+                    <Text fontSize="24" textColor="black" fontWeight="600">
                       Reox Fancxy
                     </Text>
-                    <Text opacity="0.5" textColor="white" fontSize="12px">
+                    <Text opacity="0.5" textColor="black" fontSize="12px">
                       @hibnastiar
                     </Text>
                   </Box>
@@ -349,7 +347,7 @@ export default function Home() {
                 <Box alignItems="flex-start">
                   <Button
                     borderRadius="12px"
-                    border="solid white 1px"
+                    border="solid black 1px"
                     textColor="black"
                     w="275px"
                     h="55px"
@@ -357,7 +355,7 @@ export default function Home() {
                     className={styles.btn}
                     _hover={{
                       background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
-                      textColor: "white",
+                      textColor: "black",
                       border: "none",
                       fontSize: "20px",
                     }}
@@ -389,16 +387,16 @@ export default function Home() {
             className={styles.conteiner}
           >
             <Box className={styles.img}>
-              <Image src="images/NFT9.png" width={"100%"} height="100%" objectFit="cover" />
+              <Image src="img/nft/nft1.jpg" width={"100%"} height="100%" objectFit="cover" />
             </Box>
             <Flex justifyContent="space-around" alignItems="center" paddingBottom="20px">
               <Box display="flex" flexDirection="column" className={styles.cont}>
                 <Box display="flex" w="275px" flexDirection="row" justifyContent="space-around">
                   <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Text fontSize="24" textColor="white" fontWeight="600">
+                    <Text fontSize="24" textColor="black" fontWeight="600">
                       Reox Fancxy
                     </Text>
-                    <Text opacity="0.5" textColor="white" fontSize="12px">
+                    <Text opacity="0.5" textColor="black" fontSize="12px">
                       @hibnastiar
                     </Text>
                   </Box>
@@ -412,7 +410,7 @@ export default function Home() {
                 <Box alignItems="flex-start">
                   <Button
                     borderRadius="12px"
-                    border="solid white 1px"
+                    border="solid black 1px"
                     textColor="black"
                     w="275px"
                     h="55px"
@@ -420,7 +418,7 @@ export default function Home() {
                     className={styles.btn}
                     _hover={{
                       background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
-                      textColor: "white",
+                      textColor: "black",
                       border: "none",
                       fontSize: "20px",
                     }}
@@ -452,16 +450,16 @@ export default function Home() {
             className={styles.conteiner}
           >
             <Box className={styles.img}>
-              <Image src="images/NFT10.png" w="100%" h="100%" objectFit="cover" />
+              <Image src="img/nft/nft1.jpg" w="100%" h="100%" objectFit="cover" />
             </Box>
             <Flex justifyContent="space-around" alignItems="center" paddingBottom="20px">
               <Box display="flex" flexDirection="column" className={styles.cont}>
                 <Box display="flex" w="275px" flexDirection="row" justifyContent="space-around">
                   <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Text fontSize="24" textColor="white" fontWeight="600">
+                    <Text fontSize="24" textColor="black" fontWeight="600">
                       Reox Fancxy
                     </Text>
-                    <Text opacity="0.5" textColor="white" fontSize="12px">
+                    <Text opacity="0.5" textColor="black" fontSize="12px">
                       @hibnastiar
                     </Text>
                   </Box>
@@ -475,7 +473,7 @@ export default function Home() {
                 <Box alignItems="flex-start">
                   <Button
                     borderRadius="12px"
-                    border="solid white 1px"
+                    border="solid black 1px"
                     textColor="black"
                     w="275px"
                     h="55px"
@@ -483,7 +481,7 @@ export default function Home() {
                     className={styles.btn}
                     _hover={{
                       background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
-                      textColor: "white",
+                      textColor: "black",
                       border: "none",
                       fontSize: "20px",
                     }}
@@ -515,16 +513,16 @@ export default function Home() {
             className={styles.conteiner}
           >
             <Box className={styles.img}>
-              <Image src="images/NFT11.png" w="100%" h="100%" objectFit="cover" />
+              <Image src="img/nft/nft1.jpg" w="100%" h="100%" objectFit="cover" />
             </Box>
             <Flex justifyContent="space-around" alignItems="center" paddingBottom="20px">
               <Box display="flex" flexDirection="column" className={styles.cont}>
                 <Box display="flex" w="275px" flexDirection="row" justifyContent="space-around">
                   <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Text fontSize="24" textColor="white" fontWeight="600">
+                    <Text fontSize="24" textColor="black" fontWeight="600">
                       Reox Fancxy
                     </Text>
-                    <Text opacity="0.5" textColor="white" fontSize="12px">
+                    <Text opacity="0.5" textColor="black" fontSize="12px">
                       @hibnastiar
                     </Text>
                   </Box>
@@ -538,7 +536,7 @@ export default function Home() {
                 <Box alignItems="flex-start">
                   <Button
                     borderRadius="12px"
-                    border="solid white 1px"
+                    border="solid black 1px"
                     textColor="black"
                     w="275px"
                     h="55px"
@@ -546,7 +544,7 @@ export default function Home() {
                     className={styles.btn}
                     _hover={{
                       background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
-                      textColor: "white",
+                      textColor: "black",
                       border: "none",
                       fontSize: "20px",
                     }}
@@ -578,16 +576,16 @@ export default function Home() {
             className={styles.conteiner}
           >
             <Box className={styles.img}>
-              <Image src="images/NFT12.png" w="100%" h="100%" objectFit="cover" />
+              <Image src="img/nft/nft1.jpg" w="100%" h="100%" objectFit="cover" />
             </Box>
             <Flex justifyContent="space-around" alignItems="center" paddingBottom="20px">
               <Box display="flex" flexDirection="column" className={styles.cont}>
                 <Box display="flex" w="275px" flexDirection="row" justifyContent="space-around">
                   <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Text fontSize="24" textColor="white" fontWeight="600">
+                    <Text fontSize="24" textColor="black" fontWeight="600">
                       Reox Fancxy
                     </Text>
-                    <Text opacity="0.5" textColor="white" fontSize="12px">
+                    <Text opacity="0.5" textColor="black" fontSize="12px">
                       @hibnastiar
                     </Text>
                   </Box>
@@ -601,7 +599,7 @@ export default function Home() {
                 <Box alignItems="flex-start">
                   <Button
                     borderRadius="12px"
-                    border="solid white 1px"
+                    border="solid black 1px"
                     textColor="black"
                     w="275px"
                     h="55px"
@@ -609,7 +607,7 @@ export default function Home() {
                     className={styles.btn}
                     _hover={{
                       background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
-                      textColor: "white",
+                      textColor: "black",
                       border: "none",
                       fontSize: "20px",
                     }}
@@ -625,16 +623,16 @@ export default function Home() {
       <Button
         marginRight="5"
         borderRadius="30"
-        border="solid white 1px"
+        border="solid black 1px"
         textColor="black"
         _hover={{
           background: "linear-gradient(90deg, rgba(255,165,64,1) 12%, rgba(255,225,104,1) 100%)",
           border: "none",
-          textColor: "white",
+          textColor: "black",
         }}
       >
         View More
       </Button>
-    </Flex>
+    </section>
   )
 }

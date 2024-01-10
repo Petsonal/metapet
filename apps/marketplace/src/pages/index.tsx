@@ -7,11 +7,5 @@ import type { ButtonProps } from "@fluentui/react-components"
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
-  return (
-    <main className={`flex min-h-screen ${inter.className}`}>
-      
-      <Button appearance="primary">Example</Button>
-      Hello
-    </main>
-  )
+  return <Button appearance="primary">Example</Button>
 }

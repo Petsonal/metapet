@@ -10,7 +10,7 @@ export default function Document() {
       <body className="h-full chakra-ui-light">
         <Header />
         <ColorModeScript />
-        <main>
+        <main className="min-h-screen">
           <Main />
         </main>
         <Footer />

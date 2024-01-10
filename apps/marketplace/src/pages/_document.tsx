@@ -1,6 +1,7 @@
 import Footer from "@/components/shared/footer"
 import Header from "@/components/shared/header"
 import { Html, Head, Main, NextScript } from "next/document"
+import { ColorModeScript } from "@chakra-ui/react"
 
 export default function Document() {
   return (
@@ -8,7 +9,10 @@ export default function Document() {
       <Head />
       <body className="h-full chakra-ui-light">
         <Header />
-        <Main />
+        <ColorModeScript />
+        <main>
+          <Main />
+        </main>
         <Footer />
         <NextScript />
       </body>

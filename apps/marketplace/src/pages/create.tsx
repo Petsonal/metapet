@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] })
 export default function Home() {
   return (
     <>
-      <section className="px-16 grid place-items-center h-full">
+      <section className="p-16 grid place-items-center h-full">
         <div className="max-w-7xl w-full">
           <div className="grid grid-cols-4 w-full ">
             <div className="">
@@ -55,14 +55,14 @@ export default function Home() {
             <div className="col-span-2">
               <div className="create__item px-7">
                 <form>
-                  <div className="form__input">
+                  <div className="form__input py-2">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload File</label>
                     <input
                       type="file"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
                   </div>
-                  <div className="form__input">
+                  <div className="form__input py-2">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                     <input
                       type="number"
@@ -70,7 +70,7 @@ export default function Home() {
                       placeholder="Enter price for one item (ETH)"
                     />
                   </div>
-                  <div className="form__input">
+                  <div className="form__input py-2">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Minimum Bid</label>
                     <input
                       type="number"
@@ -79,7 +79,7 @@ export default function Home() {
                     />
                   </div>
                   <div className="grid grid-cols-2 align-items-center gap-4">
-                    <div className="form__input col-span-1">
+                    <div className="form__input py-2 col-span-1">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Starting Date
                       </label>
@@ -88,7 +88,7 @@ export default function Home() {
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
-                    <div className="form__input col-span-1">
+                    <div className="form__input py-2 col-span-1">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Expiration Date
                       </label>
@@ -98,7 +98,7 @@ export default function Home() {
                       />
                     </div>
                   </div>
-                  <div className="form__input">
+                  <div className="form__input py-2">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
                     <input
                       type="text"
@@ -106,7 +106,7 @@ export default function Home() {
                       placeholder="Enter title"
                     />
                   </div>
-                  <div className="form__input">
+                  <div className="form__input py-2">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                     <textarea
                       name="description"

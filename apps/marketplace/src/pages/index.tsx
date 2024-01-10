@@ -1,11 +1,16 @@
+import ActionView from "@/components/section/Home/ActionView"
+import Explore from "@/components/section/Home/Explore"
+import Intro from "@/components/section/Home/Intro"
+import Summary from "@/components/section/Home/Summary"
 import Image from "next/image"
-import { Inter } from "next/font/google"
-// import { FluentProvider, webLightTheme } from "@fluentui/react-components"
-import { Button } from "@fluentui/react-components"
-import type { ButtonProps } from "@fluentui/react-components"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
-  return <Button appearance="primary">Example</Button>
+  return (
+    <>
+      <Intro />
+      <Summary />
+      <Explore />
+      <ActionView />
+    </>
+  )
 }

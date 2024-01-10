@@ -13,24 +13,24 @@ const inter = Inter({ subsets: ["latin"] })
 export default function Home() {
   return (
     <>
-      <section>
-        <div className="w-full">
-          <div className="flex flex-row">
-            <div className="col-sm-6 col-md-4 col-lg-3">
+      <section className="px-16 grid place-items-center h-full">
+        <div className="max-w-7xl w-full">
+          <div className="grid grid-cols-4 w-full ">
+            <div className="">
               <h5 className="mb-4 text-light">Preview Item</h5>
               <div className="p-5 bg-gray-800 rounded-10">
                 <div className="mb-15">
-                  <img src="/static/media/img-01.08f9fcfa.jpg" alt="" className="w-100 rounded-xl" />
+                  <img src="/img/sample.jpg" alt="" className="w-100 rounded-xl" />
                 </div>
-                <div className="nft__content">
+                <div className="nft__content text-white">
                   <h5 className="mb-4">
                     <a href="/market/01">Guard</a>
                   </h5>
-                  <div className="creator__info-wrapper d-flex gap-3">
+                  <div className="creator__info-wrapper flex gap-3 ">
                     <div className="creator__img w-10 h-10">
-                      <img src="/static/media/ava-01.53d4b552.png" alt="" className="w-100" />
+                      <img src="/img/user.png" alt="" className="w-100" />
                     </div>
-                    <div className="creator__info w-100 d-flex align-items-center justify-content-between">
+                    <div className="creator__info w-100 flex align-items-center justify-content-between ">
                       <div>
                         <h6>Created By</h6>
                         <p>Trista Francis</p>
@@ -41,19 +41,19 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className=" mt-3 d-flex align-items-center justify-content-between">
-                    <button className="bid__btn d-flex align-items-center gap-1">
+                  <div className=" mt-3 flex align-items-center justify-content-between">
+                    <button className="bid__btn flex align-items-center gap-1">
                       <i className="ri-shopping-bag-line"></i> Place Bid
                     </button>
-                    <span className="history__link">
+                    {/* <span className="history__link">
                       <a href="/create">View History</a>
-                    </span>
+                    </span> */}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-sm-6 col-md-8 col-lg-9">
-              <div className="create__item">
+            <div className="col-span-2">
+              <div className="create__item px-7">
                 <form>
                   <div className="form__input">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload File</label>
@@ -78,8 +78,8 @@ export default function Home() {
                       placeholder="Enter minimum bid"
                     />
                   </div>
-                  <div className=" d-flex align-items-center gap-4">
-                    <div className="form__input w-50">
+                  <div className="grid grid-cols-2 align-items-center gap-4">
+                    <div className="form__input col-span-1">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Starting Date
                       </label>
@@ -88,7 +88,7 @@ export default function Home() {
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
-                    <div className="form__input w-50">
+                    <div className="form__input col-span-1">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Expiration Date
                       </label>

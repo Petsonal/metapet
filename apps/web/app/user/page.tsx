@@ -1,20 +1,5 @@
 import Image from "next/image"
-import styles from "./page.module.css"
 
-function Gradient({ conic, className, small }: { small?: boolean; conic?: boolean; className?: string }): JSX.Element {
-  return (
-    <span
-      className={[
-        styles.gradient,
-        conic ? styles.glowConic : undefined,
-        small ? styles.gradientSmall : styles.gradientLarge,
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
-    />
-  )
-}
 
 const LINKS = [
   {
@@ -41,20 +26,19 @@ const LINKS = [
 
 export default function Page(): JSX.Element {
   return (
-    <main className={styles.main}>
-      
+    <main >
 
-      <div className={styles.hero}>
-        <div className={styles.heroContent}>
-          <div className={styles.logos}>
-            <div className={styles.circles}>
+      User page
+      <div >
+        <div >
+          <div >
+            <div >
               <Image alt="" height={614} src="circles.svg" width={614} style={{ pointerEvents: "none" }} />
             </div>
-            <div className={styles.logoGradientContainer}>
-              <Gradient className={styles.logoGradient} conic small />
+            <div >
             </div>
 
-            <div className={styles.logo}>
+            <div >
               <Image
                 alt="Turborepo"
                 height={120}
@@ -65,10 +49,9 @@ export default function Page(): JSX.Element {
               />
             </div>
           </div>
-          <Gradient className={styles.backgroundGradient} conic />
-          <div className={styles.turborepoWordmarkContainer}>
+          <div >
             <svg
-              className={styles.turborepoWordmark}
+
               viewBox="0 0 506 50"
               width={200}
               xmlns="http://www.w3.org/2000/svg"

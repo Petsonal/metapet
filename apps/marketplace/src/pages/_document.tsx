@@ -16,9 +16,7 @@ export default function Document() {
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#ffffff" />
-
         <meta property="og:title" content="MetaPet" />
         <meta property="og:description" content="MetaPet" />
         <meta property="og:type" content="website" />

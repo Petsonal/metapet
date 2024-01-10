@@ -1,40 +1,36 @@
 {
-  "name": "web",
-  "version": "1.0.0",
+  "name": "marketplace",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --max-warnings 0",
-    "hb": "hardhat test"
+    "lint": "next lint"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.44.2",
-    "@openzeppelin/contracts": "^5.0.1",
-    "@repo/ui": "workspace:*",
-    "dotenv": "^16.3.1",
-    "next": "^14.0.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "next": "14.0.4",
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.2",
+    "@chakra-ui/theme-tools": "^2.1.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "framer-motion": "^10.17.12",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^14.0.4",
-    "@nomicfoundation/hardhat-toolbox-viem": "^2.0.0",
+    "@types/node": "^20",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/chai": "^4.3.11",
-    "@types/eslint": "^8.56.1",
-    "@types/node": "^20.10.7",
-    "@types/react": "^18.2.47",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "autoprefixer": "^10.4.16",
-    "chai": "^5.0.0",
-    "eslint": "^8.56.0",
-    "hardhat": "^2.19.4",
-    "postcss": "^8.4.33",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3",
-    "viem": "^2.0.3"
+    "typescript": "^5"
   }
 }

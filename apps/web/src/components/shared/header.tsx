@@ -1,6 +1,12 @@
 import Link from "next/link"
-import ConnectWallet from "../item/ConnectWallet/ConnectWallet"
+// import ConnectWallet from "../item/ConnectWallet/ConnectWallet"
 import MenuItem from "./menuitem"
+import dynamic from "next/dynamic"
+
+const ConnectWallet = dynamic(() => import("../item/ConnectWallet/ConnectWallet"), {
+  loading: () => <p>Loading...</p>,
+  ssr: false,
+})
 
 export default function Header() {
   return (

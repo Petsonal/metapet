@@ -10,6 +10,7 @@
     "h": "hardhat",
     "ht": "hardhat test",
     "hc": "hardhat compile",
+    "hn": "hardhat node",
     "hd": "hardhat run scripts/deploy.ts --network sepolia"
   },
   "dependencies": {

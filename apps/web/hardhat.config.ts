@@ -1,10 +1,8 @@
 import { HardhatUserConfig } from "hardhat/config"
-// import "@nomicfoundation/hardhat-toolbox-viem"
-import "@nomicfoundation/hardhat-toolbox"
+import "@nomicfoundation/hardhat-toolbox-viem"
 import { config as dotEnvConfig } from "dotenv"
 dotEnvConfig()
 
-console.log("PRIVATE_KEY", process.env.PRIVATE_KEY)
 const config: HardhatUserConfig = {
   solidity: "0.8.19",
   networks: {

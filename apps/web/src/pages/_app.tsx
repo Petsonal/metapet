@@ -8,6 +8,8 @@ import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
 
 import { createConfig, http } from 'wagmi'
 import { mainnet, sepolia } from 'wagmi/chains'
+// import { base, mainnet, optimism } from 'wagmi/chains'
+import { injected, metaMask, safe, walletConnect } from 'wagmi/connectors'
 
 const config = createConfig({ 
   chains: [mainnet, sepolia],

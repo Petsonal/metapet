@@ -10,8 +10,9 @@ export default function Header() {
           <a href="/">
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">MetaPet</span>
           </a>
-
-          <ConnectWallet />
+          <div className="flex md:order-2">
+            <ConnectWallet />
+          </div>
           <MenuItem />
         </div>
       </nav>

@@ -1,4 +1,3 @@
-import Footer from "@/components/shared/footer"
 import Header from "@/components/shared/header"
 import { Html, Head, Main, NextScript } from "next/document"
 import { ColorModeScript } from "@chakra-ui/react"
@@ -24,12 +23,10 @@ export default function Document() {
         <meta property="og:image" content="https://metapet.com/images/og.png" />
       </Head>
       <body className="h-full chakra-ui-light">
-        <Header />
         <ColorModeScript />
-        <main className="min-h-screen">
-          <Main />
-        </main>
-        <Footer />
+
+        <Main />
+
         <NextScript />
       </body>
     </Html>

@@ -9,13 +9,13 @@ declare module "wagmi" {
   }
 }
 
-const projectId = process.env.WALLET_CONNECT_ID
-
+const projectId = process.env.WALLET_CONNECT_ID  || "" 
+// console.log("projectId", projectId)
 export const config = createConfig({
   chains: [mainnet, sepolia],
   connectors: [
     injected(),
-    // walletConnect({ projectId }),
+    // walletConnect({ projectId}),
     metaMask(),
     safe(),
   ],

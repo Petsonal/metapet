@@ -28,7 +28,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "hardhat.config.ts", "test/Lock.ts"  ],
   "exclude": [
     "node_modules"
   ]

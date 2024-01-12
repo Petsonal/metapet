@@ -3,10 +3,10 @@ import Link from "next/link"
 import MenuItem from "./menuitem"
 import dynamic from "next/dynamic"
 
-const ConnectWallet = dynamic(() => import("../item/ConnectWallet/ConnectWallet"), {
-  loading: () => <p>Loading...</p>,
-  ssr: false,
-})
+// const ConnectWallet = dynamic(() => import("../item/ConnectWallet/ConnectWallet"), {
+//   loading: () => <p>Loading...</p>,
+//   ssr: false,
+// })
 
 export default function Header() {
   return (
@@ -17,7 +17,7 @@ export default function Header() {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">MetaPet</span>
           </a>
           <div className="flex md:order-2">
-            <ConnectWallet />
+            {/* <ConnectWallet /> */}
           </div>
           <MenuItem />
         </div>

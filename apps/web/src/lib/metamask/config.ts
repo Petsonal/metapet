@@ -14,10 +14,7 @@ declare module "wagmi" {
 export const config = createConfig({
   chains: [mainnet, sepolia],
   connectors: [
-    // injected(),
-    // walletConnect({ projectId}),
-    metaMask({}),
-    // safe(),
+    metaMask(),
   ],
   transports: {
     [mainnet.id]: http(),

@@ -6,6 +6,7 @@ import type { ButtonProps } from "@fluentui/react-components"
 import { Code, List, ListIcon, ListItem, Text, Link as ChakraLink } from "@chakra-ui/react"
 import { Main } from "@/components/item/Main/Main"
 import { CheckCircleIcon, LinkIcon } from "@chakra-ui/icons"
+import Header from "@/components/shared/header"
 
 const inter = Inter({ subsets: ["latin"] })
 // <Main>
@@ -13,6 +14,7 @@ const inter = Inter({ subsets: ["latin"] })
 export default function Home() {
   return (
     <>
+      <Header />
       <section className="p-16 grid place-items-center h-full">
         <div className="max-w-7xl w-full">
           <div className="grid grid-cols-4 w-full ">

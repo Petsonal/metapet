@@ -1,3 +1,4 @@
+import Header from "@/components/shared/header"
 import { useAccount, useEnsName } from "wagmi"
 
 export default function Profile() {
@@ -7,8 +8,11 @@ export default function Profile() {
   if (status === "error") return <div>Error fetching ENS name: {error.message}</div>
 
   return (
-    <div className="relative bg-white overflow-hidden my-10">
-      <div>ENS name: {data}</div>
-    </div>
+    <>
+      <Header />
+      <div className="relative bg-white overflow-hidden my-10">
+        <div>ENS name: {data}</div>
+      </div>
+    </>
   )
 }

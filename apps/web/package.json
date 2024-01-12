@@ -20,8 +20,6 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@fluentui/react-components": "^9.44.2",
-    "@metamask/sdk": "^0.14.2",
-    "@metamask/sdk-communication-layer": "^0.14.2",
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "@nomicfoundation/hardhat-toolbox-viem": "2.0.0",
     "@nomicfoundation/hardhat-viem": "1.0.2",

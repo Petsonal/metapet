@@ -20,7 +20,7 @@ function WalletOption({ connector, onClick }: { connector: Connector; onClick: (
   }, [connector])
 
   return (
-    <button disabled={!ready} onClick={onClick}>
+    <button disabled={!ready} onClick={onClick} className="inline-flex items-center justify-center select-none relative whitespace-nowrap align-middle outline-none rounded-md border-transparent border-2 outline-offset-2 w-auto leading-1.2 font-semibold transition-property-common transition-duration-normal h-10 min-w-10 text-md px-6 bg-blue-500 text-white">
       {/* {connector.name} */}
       <span className="chakra-button__icon inline-flex self-center flex-shrink-0 mr-3">
         <svg

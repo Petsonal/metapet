@@ -2,6 +2,7 @@ import Link from "next/link"
 // import ConnectWallet from "../item/ConnectWallet/ConnectWallet"
 import MenuItem from "./menuitem"
 import dynamic from "next/dynamic"
+import WalletConnect from "../item/WalletConnect/WalletConnect"
 
 // const ConnectWallet = dynamic(() => import("../item/ConnectWallet/ConnectWallet"), {
 //   loading: () => <p>Loading...</p>,
@@ -18,6 +19,7 @@ export default function Header() {
           </a>
           <div className="flex md:order-2">
             {/* <ConnectWallet /> */}
+            
           </div>
           <MenuItem />
         </div>

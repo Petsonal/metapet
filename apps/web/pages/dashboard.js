@@ -19,7 +19,6 @@ export default function CreatorDashboard() {
     loadNFTs()
   }, [])
   async function loadNFTs() {
-    console.log(isConnected, "isConnected")
     if (isConnected == false) {
       await open()
       return

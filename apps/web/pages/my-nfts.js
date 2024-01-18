@@ -26,30 +26,36 @@ export default function MyAssets() {
       return
     }
 
-    const provider = new ethers.providers.Web3Provider(walletProvider)
-    const signer = provider.getSigner()
+    try {
+      const provider = new ethers.providers.Web3Provider(walletProvider)
 
-    const marketplaceContract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-    const data = await marketplaceContract.fetchMyNFTs()
+      const signer = provider.getSigner()
 
-    const items = await Promise.all(
-      data.map(async (i) => {
-        const tokenURI = await marketplaceContract.tokenURI(i.tokenId)
-        const meta = await axios.get(tokenURI)
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether")
-        let item = {
-          price,
-          tokenId: i.tokenId.toNumber(),
-          seller: i.seller,
-          owner: i.owner,
-          image: meta.data.image,
-          tokenURI,
-        }
-        return item
-      })
-    )
-    setNfts(items)
-    setLoadingState("loaded")
+      const marketplaceContract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+
+      const data = await marketplaceContract.fetchMyNFTs()
+
+      const items = await Promise.all(
+        data.map(async (i) => {
+          const tokenURI = await marketplaceContract.tokenURI(i.tokenId)
+          const meta = await axios.get(tokenURI)
+          let price = ethers.utils.formatUnits(i.price.toString(), "ether")
+          let item = {
+            price,
+            tokenId: i.tokenId.toNumber(),
+            seller: i.seller,
+            owner: i.owner,
+            image: meta.data.image,
+            tokenURI,
+          }
+          return item
+        })
+      )
+      setNfts(items)
+      setLoadingState("loaded")
+    } catch (error) {
+      console.error("Error connect to smart contract")
+    }
   }
   function listNFT(nft) {
     console.log("nft:", nft)

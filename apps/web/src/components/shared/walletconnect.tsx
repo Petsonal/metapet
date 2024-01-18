@@ -1,27 +1,33 @@
-import { useEffect, useState } from "react"
-// import { Connector, useConnect } from "wagmi"
+import { BrowserProvider } from "ethers"
+import React, { useCallback, useEffect, useState } from "react"
 
-// export function WalletOptions() {
-//   const { connectors, connect } = useConnect()
-
-//   return connectors.slice(0, 1).map((connector) => (
-//     <WalletOption key={connector.uid} connector={connector} onClick={() => connect({ connector })} />
-//   ))
-// }
-
-function WalletOption({ connector, onClick }: { connector: Connector; onClick: () => void }) {
+function WalletConnect() {
   const [ready, setReady] = useState<boolean>(false)
+  const [address, setAddress] = useState<boolean>(false)
 
   useEffect(() => {
-    ;(async () => {
-      const provider = await connector.getProvider()
-      setReady(!!provider)
-    })()
-  }, [connector])
+   
+  }, [])
+
+  const onConnectWallet = useCallback(async () => {
+    const etherProvider = new BrowserProvider(window.ethereum)
+    await etherProvider
+      .send("eth_requestAccounts", [])
+      .then((accounts: any[]) => {
+        const account = accounts[0]
+        console.log(account)
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+  }, [])
 
   return (
-    <button disabled={!ready} onClick={onClick} className="inline-flex items-center justify-center select-none relative whitespace-nowrap align-middle outline-none rounded-md border-transparent border-2 outline-offset-2 w-auto leading-1.2 font-semibold transition-property-common transition-duration-normal h-10 min-w-10 text-md px-6 bg-blue-500 text-white">
-      {/* {connector.name} */}
+    <button
+      //   disabled={!ready}
+      onClick={onConnectWallet}
+      className="inline-flex items-center justify-center cursor-pointer select-none relative whitespace-nowrap align-middle outline-none rounded-md border-transparent border-2 outline-offset-2 w-auto leading-1.2 font-semibold transition-property-common transition-duration-normal h-10 min-w-10 text-md px-6 bg-blue-500 text-white"
+    >
       <span className="chakra-button__icon inline-flex self-center flex-shrink-0 mr-3">
         <svg
           stroke="currentColor"
@@ -59,3 +65,5 @@ function WalletOption({ connector, onClick }: { connector: Connector; onClick: (
     </button>
   )
 }
+
+export default WalletConnect

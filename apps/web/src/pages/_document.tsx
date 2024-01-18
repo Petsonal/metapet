@@ -1,4 +1,3 @@
-import Header from "@/components/shared/header"
 import { Html, Head, Main, NextScript } from "next/document"
 import { ColorModeScript } from "@chakra-ui/react"
 

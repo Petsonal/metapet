@@ -3,6 +3,8 @@ import Link from "next/link"
 import MenuItem from "./menuitem"
 import dynamic from "next/dynamic"
 import WalletConnect from "../item/WalletConnect/WalletConnect"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
+
 
 // const ConnectWallet = dynamic(() => import("../item/ConnectWallet/ConnectWallet"), {
 //   loading: () => <p>Loading...</p>,
@@ -19,9 +21,9 @@ export default function Header() {
           </a>
           <div className="flex md:order-2">
             {/* <ConnectWallet /> */}
-            
+            <ConnectButton />
           </div>
-          <MenuItem />
+          <MenuItem />/
         </div>
       </nav>
     </header>

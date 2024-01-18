@@ -1,10 +1,3 @@
-import "@/styles/globals.css"
-import "@/styles/chakraui.css"
-import "@/styles/normalize.css"
-import type { AppProps } from "next/app"
-import Layout from "@/components/shared/layout"
-
-// import { ConnectKitProvider, getDefaultConfig } from "connectkit"
 import "@rainbow-me/rainbowkit/styles.css"
 
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
@@ -19,8 +12,8 @@ const { chains, publicClient } = configureChains(
 )
 
 const { connectors } = getDefaultWallets({
-  appName: "Petsonal",
-  projectId: "6831d6853ff259c014dacae33001d9a5",
+  appName: "My RainbowKit App",
+  projectId: "YOUR_PROJECT_ID",
   chains,
 })
 
@@ -29,16 +22,3 @@ export const wagmiConfig = createConfig({
   connectors,
   publicClient,
 })
-
-
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </RainbowKitProvider>
-    </WagmiConfig>
-  )
-}

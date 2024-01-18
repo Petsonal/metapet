@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 // import { WagmiProvider } from "wagmi"
 import theme from "@/lib/theme"
 import Footer from "./footer"
-import Header from "./header"
 
 export default function Layout({ children }: { children: any }) {
   const queryClient = new QueryClient()

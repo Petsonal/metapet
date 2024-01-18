@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-// import { Connector, useConnect } from "wagmi"
+import { Connector, useConnect } from "wagmi"
 
 // export function WalletOptions() {
 //   const { connectors, connect } = useConnect()
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 //   ))
 // }
 
-function WalletOption({ connector, onClick }: { connector: Connector; onClick: () => void }) {
+export function WalletOptions({ connector, onClick }: { connector: Connector; onClick: () => void }) {
   const [ready, setReady] = useState<boolean>(false)
 
   useEffect(() => {

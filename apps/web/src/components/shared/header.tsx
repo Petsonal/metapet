@@ -1,10 +1,9 @@
 import Link from "next/link"
-// import ConnectWallet from "../item/ConnectWallet/ConnectWallet"
 import MenuItem from "./menuitem"
-import dynamic from "next/dynamic"
-import WalletConnect from "../item/WalletConnect/WalletConnect"
-import { ConnectButton } from "@rainbow-me/rainbowkit"
-
+// import dynamic from "next/dynamic"
+// import ConnectWallet from "../item/ConnectWallet/ConnectWallet"
+// import WalletConnect from "../item/WalletConnect/WalletConnect"
+// import { ConnectButton } from "@rainbow-me/rainbowkit"
 
 // const ConnectWallet = dynamic(() => import("../item/ConnectWallet/ConnectWallet"), {
 //   loading: () => <p>Loading...</p>,
@@ -20,10 +19,9 @@ export default function Header() {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">MetaPet</span>
           </a>
           <div className="flex md:order-2">
-            {/* <ConnectWallet /> */}
-            <ConnectButton />
+            {/* <ConnectButton /> */}
           </div>
-          <MenuItem />/
+          <MenuItem />
         </div>
       </nav>
     </header>

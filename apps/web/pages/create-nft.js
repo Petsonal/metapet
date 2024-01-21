@@ -24,8 +24,6 @@ const client = ipfsHttpClient({ host: "localhost", port: "5001", protocol: "http
 
 // const pinata = new PinataClient('3ca53d8a1cadc44565ac', 'a005dd65f5e6049888bee7f8958b9191d7c1d748662ab559ba8b0db3cef1ff37');
 
-import { CheckCircleIcon, LinkIcon } from "@chakra-ui/icons"
-
 export default function CreateItem() {
   const { isConnected } = useWeb3ModalAccount()
   const { open } = useWeb3Modal()
@@ -34,7 +32,7 @@ export default function CreateItem() {
 
   const router = useRouter()
   const [fileUrl, setFileUrl] = useState(null)
-  const [formInput, updateFormInput] = useState({ price: "", name: "", description: "" })
+  const [formInput, updateFormInput] = useState({ price: 0, name: "", description: "" })
 
   async function onChange(e) {
     const file = e.target.files[0]
@@ -43,7 +41,7 @@ export default function CreateItem() {
         progress: (prog) => console.log(`received: ${prog}`),
       })
       // const url = `https://ipfs.infura.io/ipfs/${added.path}`
-      const url = `http://localhost:8080/ipfs/${added.path}`
+      const url = `http://127.0.0.1:8080/ipfs/${added.path}`
       setFileUrl(url)
     } catch (error) {
       console.log("Error uploading file: ", error)
@@ -76,17 +74,20 @@ export default function CreateItem() {
       await open()
       return
     }
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    const { walletProvider } = useWeb3ModalProvider()
+
     const provider = new ethers.providers.Web3Provider(walletProvider)
     const signer = provider.getSigner()
 
+    console.log("formInput.price", formInput.price)
     /* next, create the item */
-    const price = ethers.utils.parseUnits(formInput.price, "ether")
+    const price = ethers.utils.parseEther(formInput.price)
+    console.log("price", price)
     let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
     let listingPrice = await contract.getListingPrice()
     listingPrice = listingPrice.toString()
+    console.log("listingPrice", listingPrice)
     let transaction = await contract.createToken(url, price, { value: listingPrice })
+    console.log("transaction", transaction)
     await transaction.wait()
 
     router.push("/")
@@ -99,6 +100,7 @@ export default function CreateItem() {
           <label className="block font-medium text-gray-900 dark:text-white">Asset Name</label>
           <input
             placeholder="Asset Name"
+            type="name"
             className=" bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             onChange={(e) => updateFormInput({ ...formInput, name: e.target.value })}
           />
@@ -115,16 +117,13 @@ export default function CreateItem() {
           <label className="block font-medium text-gray-900 dark:text-white">Asset Price in Eth</label>
           <input
             placeholder="Asset Price in Eth"
+            type="number"
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             onChange={(e) => updateFormInput({ ...formInput, price: e.target.value })}
           />
         </div>
-        <input
-          type="file"
-          name="Asset"
-          className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          onChange={onChange}
-        />
+        <input type="file" name="Asset" className="" onChange={onChange} />
+        {/* bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 */}
         {fileUrl && <img className="rounded mt-4" width="350" src={fileUrl} />}
         <button onClick={listNFTForSale} className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
           Create NFT

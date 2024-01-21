@@ -18,6 +18,7 @@ export default function Home() {
 
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
+  
   // const { address, chainId, isConnected } = useWeb3ModalAccount()
 
   useEffect(() => {

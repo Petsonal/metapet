@@ -1,7 +1,5 @@
-import Image from "next/image"
 import { Inter } from "next/font/google"
 import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalError, useWeb3ModalProvider } from "@web3modal/ethers5/react"
-import ConnectButton from "@/components/shared/ConnectButton"
 import { useEffect, useState } from "react"
 import { ethers } from "ethers"
 import { marketplaceAddress } from "@/config"
@@ -18,7 +16,7 @@ export default function Home() {
 
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
-  
+
   // const { address, chainId, isConnected } = useWeb3ModalAccount()
 
   useEffect(() => {
@@ -51,7 +49,6 @@ export default function Home() {
         } catch (error) {
           console.log("Cannot connect to ipfs server")
         }
-        // const
         // console.log(meta.data)
         let price = ethers.utils.formatUnits(i.price.toString(), "ether")
         let item = {

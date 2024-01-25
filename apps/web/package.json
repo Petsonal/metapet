@@ -23,7 +23,6 @@
     "ethers": "^5.7.2",
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
-    "hardhat": "^2.19.4",
     "ipfs-http-client": "^60.0.1",
     "kubo-rpc-client": "^3.0.2",
     "next": "14.0.4",
@@ -31,6 +30,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "hardhat": "^2.19.4",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",

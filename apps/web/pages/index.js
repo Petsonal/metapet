@@ -18,7 +18,7 @@ export default function Home() {
 
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
-  
+
   // const { address, chainId, isConnected } = useWeb3ModalAccount()
 
   useEffect(() => {
@@ -44,28 +44,32 @@ export default function Home() {
       data.map(async (i) => {
         const tokenUri = await contract.tokenURI(i.tokenId)
         console.log("tokenUri", tokenUri)
-        // https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/
-        let meta = "https://gateway.pinata.cloud/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg"
+        // https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg
+        let meta = "https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg"
+        // "https://gateway.pinata.cloud/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg"
         try {
           meta = await axios.get(tokenUri)
+
+          // const
+          // console.log(meta.data)
+          let price = ethers.utils.formatUnits(i.price.toString(), "ether")
+          let item = {
+            price,
+            tokenId: i.tokenId.toNumber(),
+            seller: i.seller,
+            owner: i.owner,
+            image: meta.data.image,
+            name: meta.data.name,
+            description: meta.data.description,
+          }
+          return item
         } catch (error) {
           console.log("Cannot connect to ipfs server")
         }
-        // const
-        // console.log(meta.data)
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether")
-        let item = {
-          price,
-          tokenId: i.tokenId.toNumber(),
-          seller: i.seller,
-          owner: i.owner,
-          image: meta.data.image,
-          name: meta.data.name,
-          description: meta.data.description,
-        }
-        return item
+        return null
       })
     )
+    console.log("items", items)
     setNfts(items)
     setLoadingState("loaded")
   }
@@ -100,7 +104,9 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {nfts.map((nft, i) => (
             <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <img src={nft.image} />
+              <div className="relative h-80">
+                <img src={nft.image} className="absolute inset-0 w-full h-full object-cover object-center" />
+              </div>
               <div className="p-4">
                 <p className="text-2xl font-semibold">{nft.name}</p>
                 <div>
@@ -114,7 +120,7 @@ export default function Home() {
               <div className="p-4 bg-black">
                 <p className="text-2xl font-bold text-white">{nft.price} ETH</p>
                 <button
-                  className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
+                  className="mt-4 bg-blue-500 text-white font-bold py-2 px-12 rounded inline-flex items-center justify-center whitespace-nowrap transition duration-200 text-md gap-3 w-full"
                   onClick={() => buyNft(nft)}
                 >
                   Buy

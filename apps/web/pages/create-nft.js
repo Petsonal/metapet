@@ -8,6 +8,14 @@ import { useRouter } from "next/router"
 import { marketplaceAddress } from "../config"
 import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json"
 import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalError, useWeb3ModalProvider } from "@web3modal/ethers5/react"
+import { JWT_PINTANA } from "@/lib/config"
+import axios from "axios"
+
+// interface IpfsResponse{
+//   IpfsHash: string;
+//   PinSize:Number;
+//   Timestamp: string;
+// }
 
 // const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const client = ipfsHttpClient({ host: "localhost", port: "5001", protocol: "http" })
@@ -31,40 +39,84 @@ export default function CreateItem() {
   const { walletProvider } = useWeb3ModalProvider()
 
   const router = useRouter()
-  const [fileUrl, setFileUrl] = useState(null)
+  // const [fileUrl, setFileUrl] = useState(null)
   const [formInput, updateFormInput] = useState({ price: 0, name: "", description: "" })
 
-  async function onChange(e) {
+  const [image, setImage] = useState(null)
+  const [previewImage, setPreviewImage] = useState(null)
+
+  async function handleFileChange(e) {
     const file = e.target.files[0]
-    try {
-      const added = await client.add(file, {
-        progress: (prog) => console.log(`received: ${prog}`),
-      })
-      // const url = `https://ipfs.infura.io/ipfs/${added.path}`
-      const url = `http://127.0.0.1:8080/ipfs/${added.path}`
-      setFileUrl(url)
-    } catch (error) {
-      console.log("Error uploading file: ", error)
+    if (!file) return
+
+    // Display a preview of the selected image
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreviewImage(reader.result)
     }
+    reader.readAsDataURL(file)
+
+    setImage(file)
+    // try {
+    //   const added = await client.add(file, {
+    //     progress: (prog) => console.log(`received: ${prog}`),
+    //   })
+    //   // const url = `https://ipfs.infura.io/ipfs/${added.path}`
+    //   const url = `http://127.0.0.1:8080/ipfs/${added.path}`
+    //   setFileUrl(url)
+    // } catch (error) {
+    //   console.log("Error uploading file: ", error)
+    // }
   }
+
   async function uploadToIPFS() {
     const { name, description, price } = formInput
-    if (!name || !description || !price || !fileUrl) return
-    /* first, upload to IPFS */
-    const data = JSON.stringify({
+    if (!name || !description || !price || !image) return
+
+    const formData = new FormData()
+    formData.append("file", image)
+
+    const pinataMetadata = JSON.stringify({
       name,
       description,
-      image: fileUrl,
     })
+    formData.append("pinataMetadata", pinataMetadata)
+
+    const pinataOptions = JSON.stringify({
+      cidVersion: 0,
+    })
+    formData.append("pinataOptions", pinataOptions)
+
     try {
-      const added = await client.add(data)
-      // const url = `https://ipfs.infura.io/ipfs/${added.path}`
-      const url = `http://127.0.0.1:8080/ipfs/${added.path}`
-      /* after file is uploaded to IPFS, return the URL to use it in the transaction */
-      return url
+      const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
+        maxBodyLength: "Infinity",
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+          Authorization: JWT_PINTANA,
+        },
+      })
+
+      console.log(res.data)
+      const cid = res.data.IpfsHash
+      if (cid) {
+        const urlImage = `https://ipfs.io/ipfs/${cid}`
+        return urlImage
+      } else {
+        console.log("Cannot load cid image")
+      }
     } catch (error) {
-      console.log("Error uploading file: ", error)
+      console.log(error)
     }
+
+    // try {
+    //   const added = await client.add(data)
+    //   // const url = `https://ipfs.infura.io/ipfs/${added.path}`
+    //   const url = `http://127.0.0.1:8080/ipfs/${added.path}`
+    //   /* after file is uploaded to IPFS, return the URL to use it in the transaction */
+    //   return url
+    // } catch (error) {
+    //   console.log("Error uploading file: ", error)
+    // }
   }
 
   async function listNFTForSale() {
@@ -74,7 +126,7 @@ export default function CreateItem() {
       await open()
       return
     }
-
+    console.log("Finish")
     const provider = new ethers.providers.Web3Provider(walletProvider)
     const signer = provider.getSigner()
 
@@ -122,9 +174,19 @@ export default function CreateItem() {
             onChange={(e) => updateFormInput({ ...formInput, price: e.target.value })}
           />
         </div>
-        <input type="file" name="Asset" className="" onChange={onChange} />
+        <input type="file" name="Asset" accept="image/*" className="" onChange={handleFileChange} />
         {/* bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 */}
-        {fileUrl && <img className="rounded mt-4" width="350" src={fileUrl} />}
+        {/* {fileUrl && <img className="rounded mt-4" width="350" src={fileUrl} />} */}
+        {previewImage && (
+          <div className="relative h-96 w-full">
+            <h2>Preview:</h2>
+            <img
+              src={previewImage}
+              alt="Preview"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          </div>
+        )}
         <button onClick={listNFTForSale} className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
           Create NFT
         </button>

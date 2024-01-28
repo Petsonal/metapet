@@ -10,3 +10,9 @@
 
     return contractExists
   }
+
+
+  export function ipfs_url_from_hash(h) {
+    return "https://ipfs.io/ipfs/" + h
+  }
+  

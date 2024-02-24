@@ -82,7 +82,6 @@ export default function Home() {
       setNfts(items)
       setLoadingState("loaded")
     }
-      
   }
 
   async function buyNft(nft) {
@@ -118,83 +117,58 @@ export default function Home() {
           {
             nfts.map((nft, i )=>(
               <div key={i}>
-<div className="sc-beff130f-0 sc-4be2248d-1 hksMfk lmdJxr Asset--loaded">
-          <article
-            className="flex flex-col h-full rounded-xl relative z-20 overflow-hidden bg-white shadow-md transition-shadow duration-250 ease-in-out w-full"
-          >
-            <a href="/detail"
-              className="no-underline cursor-pointer text-interactive-primary hover:text-interactive-primary-hover disabled:pointer-events-none disabled:opacity-40 Asset--anchor">
-              <div className="h-72 w-72">
-                <div className="h-72 w-72 relative">
-                  <Image src={nft.image} alt="Cool Cat" loading="lazy" decoding="async" className="" fill={true} style={{ objectFit: "cover" }} />
-                </div>
-              </div>
-              <div className="flex flex-col w-full p-4">
-                <div className="flex items-center justify-between">
-                  <div className="text-lg leading-sm font-semibold text-primary">
-                  {nft.name ? nft.name : `NFT Item #${i+1}`}
-                  </div>
-                  <div>
-                    <div className="flex items-center overflow-hidden h-7 px-2">
-                      <span className="leading-sm font-bold text-2xl text-primary">
-                        {nft.price} ETH
-                      </span>
+              <div className="sc-beff130f-0 sc-4be2248d-1 hksMfk lmdJxr Asset--loaded">
+                      <article
+                        className="flex flex-col h-full rounded-xl relative z-20 overflow-hidden bg-white shadow-md transition-shadow duration-250 ease-in-out w-full"
+                      >
+                        <a href="/detail"
+                          className="no-underline cursor-pointer text-interactive-primary hover:text-interactive-primary-hover disabled:pointer-events-none disabled:opacity-40 Asset--anchor">
+                          <div className="h-72 w-72">
+                            <div className="h-72 w-72 relative">
+                              <Image src={nft.image} alt="Cool Cat" loading="lazy" decoding="async" className="" fill={true} style={{ objectFit: "cover" }} />
+                            </div>
+                          </div>
+                          <div className="flex flex-col w-full p-4">
+                            <div className="flex items-center justify-between">
+                              <div className="text-lg leading-sm font-semibold text-primary">
+                              {nft.name ? nft.name : `NFT Item #${i+1}`}
+                              </div>
+                              <div>
+                                <div className="flex items-center overflow-hidden h-7 px-2">
+                                  <span className="leading-sm font-bold text-2xl text-primary">
+                                    {nft.price} ETH
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-sm text-gray-400 leading-sm text-primary text-ellipsis overflow-hidden truncate whitespace-no-wrap w-48">
+                            {nft.description}
+                            </div>
+                            <div className="flex flex-row pt-4">
+                              <span className="flex-none mr-4">Seller</span>
+                              <span className="flex-auto text-gray-400 leading-sm text-primary text-ellipsis overflow-hidden truncate whitespace-no-wrap w-32">{nft.seller}</span>
+                            </div>
+                            <div className="flex flex-row">
+                              <span className="flex-none mr-4">Owner</span>
+                              <span className="flex-auto text-gray-400 leading-sm text-primary text-ellipsis overflow-hidden truncate whitespace-no-wrap w-32">{nft.owner}</span>
+                            </div>
+                          </div>
+                        </a>
+                        <div className="rounded-xl ml-[-1px] rounded-b-default rounded-t-none">
+                          <div className="">
+                            <button type="button" onClick={() => buyNft(nft)} className="inline-flex items-center justify-center whitespace-nowrap transition duration-200 text-md leading-md font-semibold bg-blue-500 text-white hover:bg-blue-2 gap-3 rounded-xl px-6 py-3 disabled:pointer-events-none disabled:opacity-40  w-full rounded-tl-none rounded-tr-none rounded-bl-none rounded-br-lg p-0">
+                              <span className="text-sm leading-sm font-semibold text-white" >Buy now
+                              <span></span>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </article>
                     </div>
-                  </div>
-                </div>
-                <div className="text-sm text-gray-400 leading-sm text-primary text-ellipsis overflow-hidden truncate whitespace-no-wrap w-48">
-                {nft.description}
-                </div>
-                <div className="flex flex-row pt-4">
-                  <span className="flex-none mr-4">Seller</span>
-                  <span className="flex-auto text-gray-400 leading-sm text-primary text-ellipsis overflow-hidden truncate whitespace-no-wrap w-32">{nft.seller}</span>
-                </div>
-                <div className="flex flex-row">
-                  <span className="flex-none mr-4">Owner</span>
-                  <span className="flex-auto text-gray-400 leading-sm text-primary text-ellipsis overflow-hidden truncate whitespace-no-wrap w-32">{nft.owner}</span>
-                </div>
-              </div>
-            </a>
-            <div className="rounded-xl ml-[-1px] rounded-b-default rounded-t-none">
-              <div className="">
-                <button type="button" onClick={() => buyNft(nft)} className="inline-flex items-center justify-center whitespace-nowrap transition duration-200 text-md leading-md font-semibold bg-blue-500 text-white hover:bg-blue-2 gap-3 rounded-xl px-6 py-3 disabled:pointer-events-none disabled:opacity-40  w-full rounded-tl-none rounded-tr-none rounded-bl-none rounded-br-lg p-0">
-                  <span className="text-sm leading-sm font-semibold text-white" >Buy now
-                  <span></span>
-                  </span>
-                </button>
-              </div>
             </div>
-          </article>
-        </div>
-            </div>
-            ))
-          }
-          {/* {nfts.map((nft, i) => (
-            <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <div className="relative h-80">
-              <Image src={nft.image} fill={true} className="absolute inset-0 h-full object-cover object-center" alt="" />
-              </div>
-              <div className="p-4">
-                <p className="text-2xl font-semibold">{nft.name}</p>
-                <div>
-                  <p className="text-gray-400">{nft.description}</p>
-                </div>
-                <div>
-                  <p className="text-sm">Owner: {nft.owner}</p>
-                  <p className="text-sm">Seller: {nft.seller}</p>
-                </div>
-              </div>
-              <div className="p-4 bg-black">
-                <p className="text-2xl font-bold text-white">{nft.price} ETH</p>
-                <button
-                  className="mt-4 bg-blue-500 text-white font-bold py-2 px-12 rounded inline-flex items-center justify-center whitespace-nowrap transition duration-200 text-md gap-3 w-full"
-                  onClick={() => buyNft(nft)}
-                >
-                  Buy
-                </button>
-              </div>
-            </div>
-          ))} */}
+            ))}
+
+            
         </div>
       </div>
     </div>

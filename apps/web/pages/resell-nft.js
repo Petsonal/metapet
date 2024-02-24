@@ -21,7 +21,7 @@ export default function ResellNFT() {
 
   useEffect(() => {
     fetchNFT()
-  }, [id])
+  }, [id, isConnected])
 
   async function fetchNFT() {
     if (!tokenURI) return
@@ -33,7 +33,7 @@ export default function ResellNFT() {
     if (!price) return
 
     if (isConnected == false) {
-      await open()
+      // await open()
 
       if (error) {
         return

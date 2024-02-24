@@ -37,6 +37,11 @@ npx hardhat test
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
+```sh
+npx hardhat run scripts/deploy.js --network sepolia
+```
+
+
 4. Start the app
 
 ```

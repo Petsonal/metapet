@@ -1,7 +1,20 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "paths": {
-      "@/*": ["./*"]
-    }
-  }
+      "@/*": [
+        "./*"
+      ]
+    },
+  },
+  "exclude": [
+    "build/",
+    "cache/",
+    "artifacts/",
+    ".next/",
+    "node_modules",
+    "./node_modules",
+    "./node_modules/*",
+    "./node_modules/@types/node/index.d.ts",
+  ]
 }

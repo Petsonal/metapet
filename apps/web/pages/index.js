@@ -7,9 +7,9 @@ import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketp
 import Image from "next/image"
 import Loading from "@/components/Loading/Loading"
 import { RPC_JSON_URL } from "@/config/config"
+import axios from "axios"
 
 export async function getStaticProps() {
-  console.log(process.env.RPC_JSON_URL)
   return {
     props: { rpcJSONUrl: RPC_JSON_URL }
   }
@@ -29,13 +29,13 @@ export default function Home() {
   console.log("RPC_JSON_URL", RPC_JSON_URL)
   useEffect(() => {
     loadNFTs()
-  }, [isConnected])
+  },[])
 
   async function loadNFTs() {
-    if (isConnected == false) {
+    // if (isConnected == false) {
       // console.log("isConnected == ", isConnected)
-      return
-    }
+      // return
+    // }
     setIsLoading(true)
     // console.log("isConnected == ", isConnected)
     // if (isConnected == false) {
@@ -43,8 +43,7 @@ export default function Home() {
     //   return
     // }
     /* create a generic provider and query for unsold market items */
-    // const provider = new ethers.providers.JsonRpcProvider()
-    // const provider = new ethers.providers.Web3Provider(walletProvider)
+    // console.log("loadNFTs")
     const provider = new ethers.providers.JsonRpcProvider(RPC_JSON_URL)
     const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, provider)
     const data = await contract.fetchMarketItems()
@@ -57,14 +56,19 @@ export default function Home() {
     const items = await Promise.all(
       data.map(async (i, idx) => {
         const tokenUri = await contract.tokenURI(i.tokenId)
-        console.log("tokenUri", tokenUri)
+        // console.log("tokenUri", tokenUri)
+        // https://emerald-rare-cuckoo-385.mypinata.cloud/ipfs/QmT7gzCq7ujdJLmVGeWDoMQfpbho7Lwuf3iUo6rqGkNFGi?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi
         // https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg
-        const tokenImageUrl = "https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg"
+        // const tokenImageUrl = "https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg"
         // let meta = "https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg"
         // "https://gateway.pinata.cloud/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg"
         try {
-          // meta = await axios.get(tokenUri)
+          // const startIndex = tokenUri.indexOf("ipfs/") + "ipfs/".length;
+          // const ipfsCID = tokenUri.substring(startIndex);
+          // const metaUrl = `https://emerald-rare-cuckoo-385.mypinata.cloud/ipfs/${ipfsCID}?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi`;
+          // let meta = await axios.get(metaUrl)
 
+          // console.log("metaUrl", metaUrl)
           // const
           // console.log(meta.data)
           let price = ethers.utils.formatUnits(i.price.toString(), "ether")
@@ -72,11 +76,12 @@ export default function Home() {
             price,
             tokenId: i.tokenId.toNumber(),
             seller: i.seller,
-            owner: i.owner,
+            owner: i.owner, // "https://ipfs.io/ipfs/QmPgSorQvFidn8r94iYrTf2SmxW6Xb7PWqCGuWcMHqZ6N7"
             image: tokenUri, //"https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg", // meta.data.image,
             name: `NFT Item #${idx + 1}`, //"nft1.jpg", // meta.data.name,
             description: `Description ${idx + 1}` //"Item desc", // meta.data.description,
           }
+
           return item
         } catch (error) {
           console.log("Cannot connect to ipfs server")
@@ -94,16 +99,24 @@ export default function Home() {
   }
 
   async function buyNft(nft) {
-    if (isConnected == false) {
+    if (!walletProvider){
       await open()
-
-      if (error) {
-        return
-      }
+      return
+    }
+    
+    const provider = new ethers.providers.Web3Provider(walletProvider)
+    if (!provider) {
+      await open()
+      return
     }
 
-    const provider = new ethers.providers.Web3Provider(walletProvider)
     const signer = provider.getSigner()
+    if (!signer) {
+      await open()
+      return
+    }
+
+
     const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
 
     /* user will be prompted to pay the asking proces to complete the transaction */

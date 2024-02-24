@@ -33,17 +33,22 @@ export default function ResellNFT() {
   async function listNFTForSale() {
     if (!price) return
 
-    if (isConnected == false) {
-      // await open()
-
-      if (error) {
-        return
-      }
+    if (!walletProvider){
+      await open()
+      return
     }
 
-    // const provider = new ethers.providers.Web3Provider(walletProvider)
-    const provider = new ethers.providers.JsonRpcProvider(RPC_JSON_URL)
+    const provider = new ethers.providers.Web3Provider(walletProvider)
+    if (!provider) {
+      await open()
+      return
+    }
+
     const signer = provider.getSigner()
+    if (!signer) {
+      await open()
+      return
+    }
 
     const priceFormatted = ethers.utils.parseUnits(formInput.price, "ether")
     let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)

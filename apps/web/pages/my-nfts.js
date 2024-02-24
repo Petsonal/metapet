@@ -19,25 +19,34 @@ export default function MyAssets() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     loadNFTs()
-  }, [isConnected])
+  }, [])
 
   async function loadNFTs() {
-    if (isConnected == false) {
-      // await open()
+    if (!walletProvider){
+      await open()
       return
     }
 
-    setIsLoading(true)
     try {
-      // const provider = new ethers.providers.Web3Provider(walletProvider)
-      const provider = new ethers.providers.JsonRpcProvider(RPC_JSON_URL)
+      const provider = new ethers.providers.Web3Provider(walletProvider)
+      if (!provider) {
+        await open()
+        return
+      }
+
       const signer = provider.getSigner()
+      if (!signer) {
+        await open()
+        return
+      }
+
       const marketplaceContract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
 
+      setIsLoading(true)
       const data = await marketplaceContract.fetchMyNFTs()
 
       const items = await Promise.all(
@@ -56,19 +65,19 @@ export default function MyAssets() {
             description: `Description ${idx + 1}`
           }
 
-          setIsLoading(false)
           return item
         })
       )
       setNfts(items)
       setLoadingState("loaded")
+      setIsLoading(false)
     } catch (error) {
       console.error("Error connect to smart contract")
     }
 
   }
   function listNFT(nft) {
-    console.log("nft:", nft)
+    // console.log("nft:", nft)
     router.push(`/resell-nft?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
   }
 
@@ -76,7 +85,11 @@ export default function MyAssets() {
     return (<Loading />)
   }
 
-  if (loadingState === "loaded" && !nfts.length) return <h1 className="py-10 px-20 text-3xl">No NFTs owned</h1>
+  if (!isConnected){
+    return <h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2>
+  }
+
+  if (loadingState === "loaded" && !nfts.length) return <h2 className="py-10 px-20 text-3xl">No NFTs owned</h2>
   return (
     <div className="flex justify-center">
       <div className="p-4">

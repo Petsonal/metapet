@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect } from "react"
 import { useState } from "react"
 import { ethers } from "ethers"
 import { create as ipfsHttpClient } from "ipfs-http-client"
@@ -40,11 +40,17 @@ export default function CreateItem() {
   const { walletProvider } = useWeb3ModalProvider()
   const [isUploading, setIsUploading] = useState(false);
   const router = useRouter()
-  // const [fileUrl, setFileUrl] = useState(null)
+  const [loadingState, setLoadingState] = useState("not-loaded")
   const [formInput, updateFormInput] = useState({ price: 0, name: "", description: "" })
 
   const [image, setImage] = useState(null)
   const [previewImage, setPreviewImage] = useState(null)
+
+  useEffect(()=>{
+    if (!walletProvider){
+      open()
+    }
+  }, [])
 
   async function handleFileChange(e) {
     const file = e.target.files[0]
@@ -100,7 +106,8 @@ export default function CreateItem() {
       console.log("uploading", res.data)
       const cid = res.data.IpfsHash
       if (cid) {
-        const urlImage = `https://ipfs.io/ipfs/${cid}`
+        const urlImage = `https://emerald-rare-cuckoo-385.mypinata.cloud/ipfs/${cid}`
+        // const urlImage = `https://ipfs.io/ipfs/${cid}`
 
         return urlImage
       } else {
@@ -123,16 +130,25 @@ export default function CreateItem() {
   }
 
   async function listNFTForSale() {
-    setIsUploading(true)
     const url = await uploadToIPFS()
-
-    if (isConnected == false) {
+    
+    if (!walletProvider){
       await open()
       return
     }
-    console.log("Finish")
+    setIsUploading(true)
+
     const provider = new ethers.providers.Web3Provider(walletProvider)
+    if (!provider) {
+      await open()
+      return
+    }
+
     const signer = provider.getSigner()
+    if (!signer) {
+      await open()
+      return
+    }
 
     console.log("formInput.price", formInput.price)
     /* next, create the item */
@@ -152,6 +168,10 @@ export default function CreateItem() {
 
   if (isUploading) {
     return (<Loading/>)
+  }
+
+  if (!isConnected){
+    return <h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2>
   }
   return (
     <div className="flex justify-center">

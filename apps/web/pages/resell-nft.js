@@ -40,7 +40,8 @@ export default function ResellNFT() {
       }
     }
 
-    const provider = new ethers.providers.Web3Provider(walletProvider)
+    // const provider = new ethers.providers.Web3Provider(walletProvider)
+    const provider = new ethers.providers.JsonRpcProvider(RPC_JSON_URL)
     const signer = provider.getSigner()
 
     const priceFormatted = ethers.utils.parseUnits(formInput.price, "ether")

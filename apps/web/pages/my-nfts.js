@@ -6,6 +6,8 @@ import { marketplaceAddress } from "../config"
 import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json"
 import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalError, useWeb3ModalProvider } from "@web3modal/ethers5/react"
 import Image from "next/image"
+import { RPC_JSON_URL } from "@/config/config"
+import Loading from "@/components/Loading/Loading"
 
 export default function MyAssets() {
   const { isConnected } = useWeb3ModalAccount()

@@ -7,6 +7,7 @@ import { marketplaceAddress } from "../config"
 
 import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json"
 import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalError, useWeb3ModalProvider } from "@web3modal/ethers5/react"
+import { RPC_JSON_URL } from "@/config/config"
 
 export default function ResellNFT() {
   const { isConnected } = useWeb3ModalAccount()

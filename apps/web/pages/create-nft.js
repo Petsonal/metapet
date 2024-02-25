@@ -11,6 +11,7 @@ import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalError, useWeb3ModalProvi
 import { JWT_PINTANA } from "@/lib/config"
 import axios from "axios"
 import Loading from "@/components/Loading/Loading"
+import Waiting from "@/components/Waiting/Waiting"
 
 // interface IpfsResponse{
 //   IpfsHash: string;
@@ -172,7 +173,7 @@ export default function CreateItem() {
   }
 
   if (isUploading) {
-    return <Loading />
+    return <Waiting />
   }
 
   if (!isConnected) {

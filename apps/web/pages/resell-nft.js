@@ -2,12 +2,11 @@ import { useEffect, useState } from "react"
 import { ethers } from "ethers"
 import { useRouter } from "next/router"
 import axios from "axios"
-
 import { marketplaceAddress } from "../config"
-
 import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json"
 import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalError, useWeb3ModalProvider } from "@web3modal/ethers5/react"
 import { RPC_JSON_URL } from "@/config/config"
+import Waiting from "@/components/Waiting/Waiting"
 
 export default function ResellNFT() {
   const { isConnected } = useWeb3ModalAccount()
@@ -16,6 +15,8 @@ export default function ResellNFT() {
   const { walletProvider } = useWeb3ModalProvider()
 
   const [formInput, updateFormInput] = useState({ price: "", image: "" })
+  const [isWaiting, setIsWaiting] = useState(false)
+
   const router = useRouter()
   const { id, tokenURI } = router.query
   const { image, price } = formInput
@@ -57,12 +58,19 @@ export default function ResellNFT() {
 
       listingPrice = listingPrice.toString()
       let transaction = await contract.resellToken(id, priceFormatted, { value: listingPrice })
+
+      setIsWaiting(true)
       await transaction.wait()
+      setIsWaiting(false)
 
       router.push("/")
     } catch (error) {
       console.log("Error ", error)
     }
+  }
+
+  if (isWaiting) {
+    return <Waiting />
   }
 
   return (

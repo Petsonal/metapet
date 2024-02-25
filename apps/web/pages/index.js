@@ -25,8 +25,8 @@ export default function Home() {
 
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
-  const [isLoading, setIsLoading] = useState(true)
-  const [isWaiting, setIsWaiting] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isWaiting, setIsWaiting] = useState(false)
   const [isError, setIsError] = useState(false)
   const router = useRouter()
 
@@ -64,7 +64,7 @@ export default function Home() {
 
       const items = await Promise.all(
         data.map(async (i, idx) => {
-          const tokenUri = await contract.tokenURI(i.tokenId)
+          let tokenUri = await contract.tokenURI(i.tokenId)
           // console.log("tokenUri", tokenUri)
           // https://emerald-rare-cuckoo-385.mypinata.cloud/ipfs/QmT7gzCq7ujdJLmVGeWDoMQfpbho7Lwuf3iUo6rqGkNFGi?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi
           // https://ipfs.io/ipfs/QmdQihdJpmBxZJB9jnZozjBZyfCbzG4RFGvPDHqGKW9ivB/nft1.jpg
@@ -76,6 +76,10 @@ export default function Home() {
             // const ipfsCID = tokenUri.substring(startIndex);
             // const metaUrl = `https://emerald-rare-cuckoo-385.mypinata.cloud/ipfs/${ipfsCID}?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi`;
             // let meta = await axios.get(metaUrl)
+            if (tokenUri.includes("mypinata.cloud")){
+              tokenUri += "?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi"
+            }
+
 
             let price = ethers.utils.formatUnits(i.price.toString(), "ether")
             let item = {
@@ -139,7 +143,7 @@ export default function Home() {
     setIsWaiting(true)
     await transaction.wait()
     setIsWaiting(false)
-    
+
     loadNFTs()
     setIsLoading(false)
     router.push("/my-nfts")
@@ -151,7 +155,7 @@ export default function Home() {
   }
 
   if (isWaiting) {
-    return <Loading />
+    return <Waiting />
   }
 
   if (isError) {

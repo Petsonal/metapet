@@ -76,6 +76,7 @@ export default function MyAssets() {
         console.error("Error connect to smart contract")
       } 
     } catch (error) {
+      setIsLoading(false)
       console.log("Error ", error)
     }
   }
@@ -103,7 +104,7 @@ export default function MyAssets() {
                 <article
                   className="flex flex-col h-full rounded-xl relative z-20 overflow-hidden bg-white shadow-md transition-shadow duration-250 ease-in-out w-full"
                 >
-                  <a href="/detail"
+                  <div
                     className="no-underline cursor-pointer text-interactive-primary hover:text-interactive-primary-hover disabled:pointer-events-none disabled:opacity-40 Asset--anchor">
                     <div className="h-72 w-72">
                       <div className="h-72 w-72 relative">
@@ -127,7 +128,7 @@ export default function MyAssets() {
                         {nft.description}
                       </div>
                     </div>
-                  </a>
+                  </div>
                   <div className="rounded-xl ml-[-1px] rounded-b-default rounded-t-none">
                     <div className="">
                       <button type="button" onClick={() => listNFT(nft)} className="inline-flex items-center justify-center whitespace-nowrap transition duration-200 text-md leading-md font-semibold bg-blue-500 text-white hover:bg-blue-2 gap-3 rounded-xl px-6 py-3 disabled:pointer-events-none disabled:opacity-40  w-full rounded-tl-none rounded-tr-none rounded-bl-none rounded-br-lg p-0">
@@ -141,7 +142,6 @@ export default function MyAssets() {
               </div>
             </div>
           ))}
-
         </div>
       </div>
     </div>

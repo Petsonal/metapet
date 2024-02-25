@@ -59,7 +59,12 @@ export default function Detail({ slug }) {
 
       const item = await Promise.all(
         itemFiltered.map(async (i, idx) => {
-          const tokenUrl = await contract.tokenURI(i.tokenId)
+          let tokenUrl = await contract.tokenURI(i.tokenId)
+          
+          if (tokenUri.includes("mypinata.cloud")){
+            tokenUri += "?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi"
+          }
+
           let price = ethers.utils.formatUnits(i.price.toString(), "ether")
           let item = {
             price,

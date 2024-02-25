@@ -76,10 +76,9 @@ export default function Home() {
             // const ipfsCID = tokenUri.substring(startIndex);
             // const metaUrl = `https://emerald-rare-cuckoo-385.mypinata.cloud/ipfs/${ipfsCID}?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi`;
             // let meta = await axios.get(metaUrl)
-            if (tokenUri.includes("mypinata.cloud")){
+            if (tokenUri.includes("mypinata.cloud")) {
               tokenUri += "?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi"
             }
-
 
             let price = ethers.utils.formatUnits(i.price.toString(), "ether")
             let item = {

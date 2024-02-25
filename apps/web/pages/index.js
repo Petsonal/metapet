@@ -36,7 +36,7 @@ export default function Home() {
       // console.log("isConnected == ", isConnected)
       // return
     // }
-    setIsLoading(true)
+    
     // console.log("isConnected == ", isConnected)
     // if (isConnected == false) {
     //   await open()
@@ -44,6 +44,7 @@ export default function Home() {
     // }
     /* create a generic provider and query for unsold market items */
     // console.log("loadNFTs")
+    setIsLoading(true)
     const provider = new ethers.providers.JsonRpcProvider(RPC_JSON_URL)
     const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, provider)
     const data = await contract.fetchMarketItems()
@@ -90,7 +91,7 @@ export default function Home() {
       })
     )
 
-    console.log("items", items)
+    // console.log("items", items)
     if (items) {
       setNfts(items)
       setLoadingState("loaded")
@@ -116,7 +117,7 @@ export default function Home() {
       return
     }
 
-
+    setIsLoading(true)
     const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
 
     /* user will be prompted to pay the asking proces to complete the transaction */
@@ -126,6 +127,8 @@ export default function Home() {
     })
     await transaction.wait()
     loadNFTs()
+    setIsLoading(false)
+    router.push("/my-nfts")
   }
 
   console.log("nfts", nfts)
@@ -146,7 +149,7 @@ export default function Home() {
                   <article
                     className="flex flex-col h-full rounded-xl relative z-20 overflow-hidden bg-white shadow-md transition-shadow duration-250 ease-in-out w-full"
                   >
-                    <a href="/detail"
+                    <a href={`/detail/${nft.tokenId}`}
                       className="no-underline cursor-pointer text-interactive-primary hover:text-interactive-primary-hover disabled:pointer-events-none disabled:opacity-40 Asset--anchor">
                       <div className="h-72 w-72">
                         <div className="h-72 w-72 relative">

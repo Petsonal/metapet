@@ -84,7 +84,7 @@ export default function MyAssets() {
   if (isLoading) {
     return (<Loading />)
   }
-
+  
   if (!isConnected){
     return <h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2>
   }

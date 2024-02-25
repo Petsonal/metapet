@@ -1,15 +1,15 @@
-import ConnectButton from "@/components/shared/ConnectButton"
+// import ConnectButton from "@/components/shared/ConnectButton"
 import Header from "@/components/shared/header"
 import { ContractProvider } from "@/lib/ContractContext"
 import { Web3ModalProvider } from "@/lib/Web3Modal"
 import theme from "@/lib/theme"
 import "@/styles/globals.css"
-import { ChakraProvider } from "@chakra-ui/react"
+// import { ChakraProvider } from "@chakra-ui/react"
 import Link from "next/link"
 
+// <ChakraProvider theme={theme}>
 export default function App({ Component, pageProps }) {
   return (
-    <ChakraProvider theme={theme}>
       <ContractProvider>
         <Web3ModalProvider>
           <Header />
@@ -18,6 +18,6 @@ export default function App({ Component, pageProps }) {
           </main>
         </Web3ModalProvider>
       </ContractProvider>
-    </ChakraProvider>
   )
 }
+// </ChakraProvider>

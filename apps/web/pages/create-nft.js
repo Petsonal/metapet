@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React, { useEffect } from "react"
 import { useState } from "react"
@@ -46,11 +46,11 @@ export default function CreateItem() {
   const [image, setImage] = useState(null)
   const [previewImage, setPreviewImage] = useState(null)
 
-  useEffect(()=>{
-    if (!walletProvider){
-      open()
-    }
-  }, [])
+  // useEffect(()=>{
+  //   if (!walletProvider){
+  //     open()
+  //   }
+  // }, [])
 
   async function handleFileChange(e) {
     const file = e.target.files[0]
@@ -171,7 +171,7 @@ export default function CreateItem() {
   }
 
   if (!isConnected){
-    return <h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2>
+    return <div><h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2></div>
   }
   return (
     <div className="flex justify-center">
@@ -203,8 +203,6 @@ export default function CreateItem() {
           />
         </div>
         <input type="file" name="Asset" accept="image/*" className="" onChange={handleFileChange} />
-        {/* bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 */}
-        {/* {fileUrl && <img className="rounded mt-4" width="350" src={fileUrl} />} */}
         {previewImage && (
           <div className="relative h-96 w-full">
             <h2>Preview:</h2>

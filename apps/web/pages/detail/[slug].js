@@ -32,7 +32,7 @@ export default function Detail({ slug }) {
   const [nftItem, setNFTItem] = useState()
   const [loadingState, setLoadingState] = useState("not-loaded")
   const [isLoading, setIsLoading] = useState(false)
-  const [isWaiting, setIsWaiting] = useState(true)
+  const [isWaiting, setIsWaiting] = useState(false)
 
   const router = useRouter()
   // console.log("router.query.slug", router.query)
@@ -120,6 +120,7 @@ export default function Detail({ slug }) {
       setIsLoading(false)
       router.push("/my-nfts")
     } catch (error) {
+      setIsLoading(false)
       console.log("Error", error)
     }
   }

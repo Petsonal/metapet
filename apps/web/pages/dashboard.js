@@ -28,6 +28,7 @@ export default function CreatorDashboard() {
         return
       }
       
+      setIsLoading(true)
       const provider = new ethers.providers.Web3Provider(walletProvider)
       if (!provider) {
         await open()
@@ -40,16 +41,21 @@ export default function CreatorDashboard() {
         return
       }
 
-      setIsLoading(true)
+      
 
       const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
       const data = await contract.fetchItemsListed()
 
       const items = await Promise.all(
         data.map(async (i, idx) => {
-          const tokenUri = await contract.tokenURI(i.tokenId)
-          const meta = await axios.get(tokenUri)
+          let tokenUri = await contract.tokenURI(i.tokenId)
+          // const meta = await axios.get(tokenUri)
           let price = ethers.utils.formatUnits(i.price.toString(), "ether")
+
+          if (tokenUri.includes("mypinata.cloud")){
+            tokenUri += "?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi"
+          }
+          
           let item = {
             price,
             tokenId: i.tokenId.toNumber(),
@@ -71,9 +77,9 @@ export default function CreatorDashboard() {
     }
   }
 
-  if (!isConnected) {
-    return <h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2>
-  }
+  // if (!isConnected) {
+  //   return <h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2>
+  // }
 
   if (isLoading) {
     return (<Loading />)
@@ -92,7 +98,7 @@ export default function CreatorDashboard() {
                 <article
                   className="flex flex-col h-full rounded-xl relative z-20 overflow-hidden bg-white shadow-md transition-shadow duration-250 ease-in-out w-full"
                 >
-                  <a href="/detail"
+                  <a href={`/detail/${nft.tokenId}`}
                     className="no-underline cursor-pointer text-interactive-primary hover:text-interactive-primary-hover disabled:pointer-events-none disabled:opacity-40 Asset--anchor">
                     <div className="h-72 w-72">
                       <div className="h-72 w-72 relative">

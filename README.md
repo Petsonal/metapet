@@ -1,81 +1,102 @@
-# Turborepo starter
+# MetaPet.vercel.app
 
-This is an official starter Turborepo.
+![alt text](image.png)
 
-## Using this example
+### Running this project
 
-Run the following command:
+#### Local setup
+
+To run this project locally, follow these steps.
+
+1. Clone the project locally, change into the directory, and install the dependencies:
 
 ```sh
-npx create-turbo@latest
+git clone https://github.com/Petsonal/metapet.git
+
+cd metapet
+
+# install using NPM or Yarn
+npm install
+
+# or
+
+yarn
 ```
 
-## What's inside?
+2. Start the local Hardhat node
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```sh
+npx hardhat node
 ```
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+```sh
+npx hardhat test
 ```
 
-### Remote Caching
+3. With the network running, deploy the contracts to the local network in a separate terminal window
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```sh
+npx hardhat run scripts/deploy.js --network localhost
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
+```sh
+npx hardhat run scripts/deploy.js --network sepolia
 ```
 
-## Useful Links
 
-Learn more about the power of Turborepo:
+4. Start the app
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+```
+npm run dev
+```
+
+### Configuration
+
+To deploy to Polygon test or main networks, update the configurations located in **hardhat.config.js** to use a private key and, optionally, deploy to a private RPC like Infura.
+
+```javascript
+require("@nomiclabs/hardhat-waffle")
+const fs = require("fs")
+require("dotenv").config()
+// const infuraId = fs.readFileSync(".infuraid").toString().trim() || "";
+console.log("INFURA_API_KEY", process.env.INFURA_API_KEY);
+
+module.exports = {
+  defaultNetwork: "hardhat",
+  networks: {
+    hardhat: {
+      chainId: 1337
+    },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+    /*
+    mumbai: {
+      // Infura
+      // url: `https://polygon-mumbai.infura.io/v3/${infuraId}`
+      url: "https://rpc-mumbai.matic.today",
+      accounts: [process.env.privateKey]
+    },
+    matic: {
+      // Infura
+      // url: `https://polygon-mainnet.infura.io/v3/${infuraId}`,
+      url: "https://rpc-mainnet.maticvigil.com",
+      accounts: [process.env.privateKey]
+    }
+    */
+  },
+  solidity: {
+    version: "0.8.20",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
+}
+
+```
+
+If using Infura, update **.infuraid** with your [Infura](https://infura.io/) project ID.

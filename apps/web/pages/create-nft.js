@@ -40,6 +40,7 @@ export default function CreateItem() {
   const { error } = useWeb3ModalError()
   const { walletProvider } = useWeb3ModalProvider()
   const [isUploading, setIsUploading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const [loadingState, setLoadingState] = useState("not-loaded")
   const [formInput, updateFormInput] = useState({ price: 0, name: "", description: "" })
@@ -132,13 +133,15 @@ export default function CreateItem() {
 
   async function listNFTForSale() {
     try {
+      setIsLoading(true)
       const url = await uploadToIPFS()
+      setIsLoading(false)
 
+      setIsUploading(true)
       if (!walletProvider) {
         await open()
         return
       }
-      setIsUploading(true)
 
       const provider = new ethers.providers.Web3Provider(walletProvider)
       if (!provider) {
@@ -168,12 +171,17 @@ export default function CreateItem() {
       router.push("/")
     } catch (error) {
       setIsUploading(false)
+      setIsLoading(false)
       console.log("Error ", error)
     }
   }
 
   if (isUploading) {
     return <Waiting />
+  }
+
+  if (isLoading) {
+    return <Loading />
   }
 
   if (!isConnected) {
@@ -212,9 +220,11 @@ export default function CreateItem() {
             onChange={(e) => updateFormInput({ ...formInput, price: e.target.value })}
           />
         </div>
-        <input type="file" name="Asset" accept="image/*" className="" onChange={handleFileChange} />
+        <div className="p-2">
+          <input type="file" name="Asset" accept="image/*" className="" onChange={handleFileChange} />
+        </div>
         {previewImage && (
-          <div className="relative h-96 w-full">
+          <div className="relative h-96 w-full pt-2">
             <h2>Preview:</h2>
             <img
               src={previewImage}

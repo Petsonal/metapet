@@ -26,55 +26,58 @@ export default function MyAssets() {
   }, [])
 
   async function loadNFTs() {
-    if (!walletProvider){
-      await open()
-      return
-    }
-
     try {
-      const provider = new ethers.providers.Web3Provider(walletProvider)
-      if (!provider) {
+      if (!walletProvider){
         await open()
         return
       }
-
-      const signer = provider.getSigner()
-      if (!signer) {
-        await open()
-        return
-      }
-
-      const marketplaceContract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-
-      setIsLoading(true)
-      const data = await marketplaceContract.fetchMyNFTs()
-
-      const items = await Promise.all(
-        data.map(async (i, idx) => {
-          const tokenURI = await marketplaceContract.tokenURI(i.tokenId)
-          const meta = await axios.get(tokenURI)
-          let price = ethers.utils.formatUnits(i.price.toString(), "ether")
-          let item = {
-            price,
-            tokenId: i.tokenId.toNumber(),
-            seller: i.seller,
-            owner: i.owner,
-            image: tokenURI, //meta.data.image,
-            tokenURI,
-            name: `NFT Item #${idx + 1}`,
-            description: `Description ${idx + 1}`
-          }
-
-          return item
-        })
-      )
-      setNfts(items)
-      setLoadingState("loaded")
-      setIsLoading(false)
+  
+      try {
+        const provider = new ethers.providers.Web3Provider(walletProvider)
+        if (!provider) {
+          await open()
+          return
+        }
+  
+        const signer = provider.getSigner()
+        if (!signer) {
+          await open()
+          return
+        }
+  
+        const marketplaceContract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+  
+        setIsLoading(true)
+        const data = await marketplaceContract.fetchMyNFTs()
+  
+        const items = await Promise.all(
+          data.map(async (i, idx) => {
+            const tokenURI = await marketplaceContract.tokenURI(i.tokenId)
+            const meta = await axios.get(tokenURI)
+            let price = ethers.utils.formatUnits(i.price.toString(), "ether")
+            let item = {
+              price,
+              tokenId: i.tokenId.toNumber(),
+              seller: i.seller,
+              owner: i.owner,
+              image: tokenURI, //meta.data.image,
+              tokenURI,
+              name: `NFT Item #${idx + 1}`,
+              description: `Description ${idx + 1}`
+            }
+  
+            return item
+          })
+        )
+        setNfts(items)
+        setLoadingState("loaded")
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Error connect to smart contract")
+      } 
     } catch (error) {
-      console.error("Error connect to smart contract")
+      console.log("Error ", error)
     }
-
   }
   function listNFT(nft) {
     // console.log("nft:", nft)
@@ -84,7 +87,7 @@ export default function MyAssets() {
   if (isLoading) {
     return (<Loading />)
   }
-  
+
   if (!isConnected){
     return <h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2>
   }

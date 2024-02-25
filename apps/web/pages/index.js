@@ -6,6 +6,7 @@ import { marketplaceAddress } from "@/config"
 import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json"
 import Image from "next/image"
 import Loading from "@/components/Loading/Loading"
+import Waiting from "@/components/Waiting/Waiting"
 import Error from "@/components/Error/Error"
 import { RPC_JSON_URL } from "@/config/config"
 import { useRouter } from "next/router"
@@ -25,6 +26,7 @@ export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
   const [isLoading, setIsLoading] = useState(true)
+  const [isWaiting, setIsWaiting] = useState(true)
   const [isError, setIsError] = useState(false)
   const router = useRouter()
 
@@ -133,7 +135,11 @@ export default function Home() {
     const transaction = await contract.createMarketSale(nft.tokenId, {
       value: price,
     })
+
+    setIsWaiting(true)
     await transaction.wait()
+    setIsWaiting(false)
+    
     loadNFTs()
     setIsLoading(false)
     router.push("/my-nfts")
@@ -141,6 +147,10 @@ export default function Home() {
 
   console.log("nfts", nfts)
   if (isLoading) {
+    return <Loading />
+  }
+
+  if (isWaiting) {
     return <Loading />
   }
 

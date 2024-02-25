@@ -33,32 +33,36 @@ export default function ResellNFT() {
   async function listNFTForSale() {
     if (!price) return
 
-    if (!walletProvider){
+    if (!walletProvider) {
       await open()
       return
     }
 
-    const provider = new ethers.providers.Web3Provider(walletProvider)
-    if (!provider) {
-      await open()
-      return
+    try {
+      const provider = new ethers.providers.Web3Provider(walletProvider)
+      if (!provider) {
+        await open()
+        return
+      }
+
+      const signer = provider.getSigner()
+      if (!signer) {
+        await open()
+        return
+      }
+
+      const priceFormatted = ethers.utils.parseUnits(formInput.price, "ether")
+      let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+      let listingPrice = await contract.getListingPrice()
+
+      listingPrice = listingPrice.toString()
+      let transaction = await contract.resellToken(id, priceFormatted, { value: listingPrice })
+      await transaction.wait()
+
+      router.push("/")
+    } catch (error) {
+      console.log("Error ", error)
     }
-
-    const signer = provider.getSigner()
-    if (!signer) {
-      await open()
-      return
-    }
-
-    const priceFormatted = ethers.utils.parseUnits(formInput.price, "ether")
-    let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-    let listingPrice = await contract.getListingPrice()
-
-    listingPrice = listingPrice.toString()
-    let transaction = await contract.resellToken(id, priceFormatted, { value: listingPrice })
-    await transaction.wait()
-
-    router.push("/")
   }
 
   return (

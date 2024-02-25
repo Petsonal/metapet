@@ -9,6 +9,7 @@ import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalError, useWeb3ModalProvi
 import { useRouter } from "next/router"
 import { RPC_JSON_URL } from "@/config/config"
 import Loading from "@/components/Loading/Loading"
+import Waiting from "@/components/Waiting/Waiting"
 
 
 export async function getServerSideProps(context) {
@@ -32,6 +33,7 @@ export default function Detail({ slug }) {
   const [nftItem, setNFTItem] = useState()
   const [loadingState, setLoadingState] = useState("not-loaded")
   const [isLoading, setIsLoading] = useState(true);
+  const [isWaiting, setIsWaiting] = useState(true)
 
   const router = useRouter();
   // console.log("router.query.slug", router.query)
@@ -73,23 +75,6 @@ export default function Detail({ slug }) {
         return item
       })
     )
-    // const items = await Promise.all(
-    //   data.map(async (i, idx) => {
-    //     const tokenUri = await contract.tokenURI(i.tokenId)
-    //     const meta = await axios.get(tokenUri)
-    //     let price = ethers.utils.formatUnits(i.price.toString(), "ether")
-    //     let item = {
-    //       price,
-    //       tokenId: i.tokenId.toNumber(),
-    //       seller: i.seller,
-    //       owner: i.owner,
-    //       image: tokenUri, // meta.data.image,
-    //       name: `NFT Item #${idx + 1}`,
-    //       description: `Description ${idx + 1}`
-    //     }
-    //     return item
-    //   })
-    // )
 
     setNFTItem(item[0])
     setLoadingState("loaded")
@@ -97,44 +82,53 @@ export default function Detail({ slug }) {
   }
 
   async function buyNft(nft) {
-    console.log("buyNft", nft)
-    if (!walletProvider) {
-      await open()
-      return
+    try {
+      if (!walletProvider) {
+        await open()
+        return
+      }
+  
+      const provider = new ethers.providers.Web3Provider(walletProvider)
+      if (!provider) {
+        await open()
+        return
+      }
+  
+      console.log("1. signer")
+      const signer = provider.getSigner()
+      if (!signer) {
+        await open()
+        return
+      }
+  
+      setIsLoading(true)
+      const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+  
+      /* user will be prompted to pay the asking proces to complete the transaction */
+      const price = ethers.utils.parseUnits(nft.price.toString(), "ether")
+      const transaction = await contract.createMarketSale(nft.tokenId, {
+        value: price,
+      })
+
+      setIsWaiting(true)
+      await transaction.wait()
+      setIsWaiting(false)
+
+      loadNFTs()
+      setIsLoading(false)
+      router.push("/my-nfts")
+    } catch (error) {
+      console.log("Error", error);
     }
-
-    const provider = new ethers.providers.Web3Provider(walletProvider)
-    if (!provider) {
-      await open()
-      return
-    }
-
-    console.log("1. signer")
-    const signer = provider.getSigner()
-    if (!signer) {
-      await open()
-      return
-    }
-
-    setIsLoading(true)
-    const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-    console.log("2. contract", contract)
-
-    /* user will be prompted to pay the asking proces to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), "ether")
-    console.log("3. price", contract)
-    const transaction = await contract.createMarketSale(nft.tokenId, {
-      value: price,
-    })
-    console.log("4. transaction.wait")
-    await transaction.wait()
-    loadNFTs()
-    setIsLoading(false)
-    router.push("/my-nfts")
+   
   }
 
   if (isLoading) {
     return (<Loading />)
+  }
+
+  if (isWaiting) {
+    return <Loading />
   }
 
   return (

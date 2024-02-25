@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import React, { useEffect } from "react"
 import { useState } from "react"
@@ -38,7 +38,7 @@ export default function CreateItem() {
   const { open } = useWeb3Modal()
   const { error } = useWeb3ModalError()
   const { walletProvider } = useWeb3ModalProvider()
-  const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false)
   const router = useRouter()
   const [loadingState, setLoadingState] = useState("not-loaded")
   const [formInput, updateFormInput] = useState({ price: 0, name: "", description: "" })
@@ -114,7 +114,7 @@ export default function CreateItem() {
         console.log("Cannot load cid image")
       }
     } catch (error) {
-      setUploading(false);
+      setUploading(false)
       console.log(error)
     }
 
@@ -130,48 +130,57 @@ export default function CreateItem() {
   }
 
   async function listNFTForSale() {
-    const url = await uploadToIPFS()
-    
-    if (!walletProvider){
-      await open()
-      return
+    try {
+      const url = await uploadToIPFS()
+
+      if (!walletProvider) {
+        await open()
+        return
+      }
+      setIsUploading(true)
+
+      const provider = new ethers.providers.Web3Provider(walletProvider)
+      if (!provider) {
+        await open()
+        return
+      }
+
+      const signer = provider.getSigner()
+      if (!signer) {
+        await open()
+        return
+      }
+
+      console.log("formInput.price", formInput.price)
+      /* next, create the item */
+      const price = ethers.utils.parseEther(formInput.price)
+      console.log("price", price)
+      let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+      let listingPrice = await contract.getListingPrice()
+      listingPrice = listingPrice.toString()
+      console.log("listingPrice", listingPrice)
+      let transaction = await contract.createToken(url, price, { value: listingPrice })
+      console.log("transaction", transaction)
+      await transaction.wait()
+
+      setIsUploading(false)
+      router.push("/")
+    } catch (error) {
+      setIsUploading(false)
+      console.log("Error ", error)
     }
-    setIsUploading(true)
-
-    const provider = new ethers.providers.Web3Provider(walletProvider)
-    if (!provider) {
-      await open()
-      return
-    }
-
-    const signer = provider.getSigner()
-    if (!signer) {
-      await open()
-      return
-    }
-
-    console.log("formInput.price", formInput.price)
-    /* next, create the item */
-    const price = ethers.utils.parseEther(formInput.price)
-    console.log("price", price)
-    let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-    let listingPrice = await contract.getListingPrice()
-    listingPrice = listingPrice.toString()
-    console.log("listingPrice", listingPrice)
-    let transaction = await contract.createToken(url, price, { value: listingPrice })
-    console.log("transaction", transaction)
-    await transaction.wait()
-
-    setIsUploading(false)
-    router.push("/")
   }
 
   if (isUploading) {
-    return (<Loading/>)
+    return <Loading />
   }
 
-  if (!isConnected){
-    return <div><h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2></div>
+  if (!isConnected) {
+    return (
+      <div>
+        <h2 className="py-10 px-20 text-3xl">Please connect to your wallet</h2>
+      </div>
+    )
   }
   return (
     <div className="flex justify-center">

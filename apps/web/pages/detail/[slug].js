@@ -61,8 +61,8 @@ export default function Detail({ slug }) {
         itemFiltered.map(async (i, idx) => {
           let tokenUrl = await contract.tokenURI(i.tokenId)
           
-          if (tokenUri.includes("mypinata.cloud")){
-            tokenUri += "?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi"
+          if (tokenUrl.includes("mypinata.cloud")){
+            tokenUrl += "?pinataGatewayToken=XpI-Cmj9L6Dd1RzUnWVxPHcBabdp5FIGARGYTNLaMBW1vRBgyc_5IGiITo0zJUhi"
           }
 
           let price = ethers.utils.formatUnits(i.price.toString(), "ether")

@@ -126,6 +126,7 @@ export default function Detail({ slug }) {
       router.push("/my-nfts")
     } catch (error) {
       setIsLoading(false)
+      setIsWaiting(false)
       console.log("Error", error)
     }
   }
